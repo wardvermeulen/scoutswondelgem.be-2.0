@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "npm run tailwind:css & SET DEBUG=connect-your-drone:* & npm run devstart",
-    "serverstart-linux": "npm run tailwind:css & DEBUG=connect-your-drone:* & npm run devstart",
+    "serverstart": "SET DEBUG=scoutswondelgem.be-node:* & npm run devstart",
+    "serverstart-linux": "DEBUG=scoutswondelgem.be-node:* & npm run devstart",
     "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/tailwind-generated.css"
   },
   "dependencies": {

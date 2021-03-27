@@ -4,5 +4,67 @@ html
     title= title
     link(rel="stylesheet", href="/bootstrap/css/bootstrap.min.css")
     script(src="/bootstrap/js/bootstrap.bundle.min.js") 
+    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
   body
-    block content
+    block navbar
+      nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        // Put content of navbar in a container, so it doesn't span over the whole site but the background does
+        #navbar-container.container
+          // This acts as the home button
+          a.navbar-brand.abs(href='/')  Scouts Wondelgem
+          // This is the button that appears when the screen gets smaller
+          button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
+            span.navbar-toggler-icon
+          // This is the actual content of the navbar
+          #navbarNavAltMarkup.collapse.navbar-collapse
+            .navbar-nav
+              // Takken
+              li#navbarTakken.nav-item.dropdown
+                a#toggleTakken.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                  | Takken
+                .dropdown-menu(aria-labelledby='toggleTakken')
+                  a.dropdown-item(href='takken/overzicht')
+                    b Overzicht
+                  if takken
+                    each tak in takken 
+                      a.dropdown-item(href='takken/'+tak.naam) #{tak.naam}
+                    
+              // Informatie
+              li#navbarInformatie.nav-item.dropdown
+                a#toggleInformatie.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                  | Informatie
+                .dropdown-menu(aria-labelledby='toggleInformatie')
+                  a.dropdown-item(href='#')
+                    | Inschrijvingen en 
+                    br
+                    |  algemene informatie
+                  a.dropdown-item(href='#') Verzekeringen
+                  a.dropdown-item(href='#') Scouts &amp; Gidsen Vlaanderen
+                  a.dropdown-item(href='#') Kasacties
+                  a.dropdown-item(href='#') Verhuur
+              // Agenda
+              a#navbarAgenda.nav-item.nav-link(href='#') Agenda
+              // Foto's
+              a#navbarFotos.nav-item.nav-link(href='#') Foto&apos;s
+              // Verhuur
+              li#navbarVerhuur.nav-item.dropdown
+                a#toggleVerhuur.nav-link.dropdown-toggle(href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+                  | Verhuur
+                .dropdown-menu(aria-labelledby='toggleVerhuur')
+                  a.dropdown-item(href='#') Informatie
+                  a.dropdown-item(href='#') Foto&apos;s
+                  a.dropdown-item(href='#') Kalender
+            // Log In button
+            .navbar-nav.ml-auto
+              a#navbarAanmelden.nav-item.nav-link(href='#') Aanmelden
+
+
+  block content
+
+  block footer
+    footer.container.font-small.blue.fixed-bottom
+      .footer.text-center.py-3
+        | Footer
+
