@@ -1,38 +1,21 @@
-var express = require('express');
+require("dotenv").config();
+var express = require("express");
 var router = express.Router();
+const { Pool } = require("pg");
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { 
-    title: 'Takken',
-    takken: {
-      kapoenen: {
-        naam: 'Kapoenen'
-      },
-      kabouters: {
-        naam: 'Kabouters'
-      },
-      welpen: {
-        naam: 'Welpen'
-      },
-      jonggidsen: {
-        naam: 'Jonggidsen,'
-      },
-      jongverkenners: {
-        naam: 'Jongverkenners'
-      },
-      givers: {
-        naam: 'Givers'
-      },
-      jin: {
-        naam: 'Jin'
-      },
-      groepsleiding: {
-        naam: 'Groepsleiding'
-      },
+const pool = new Pool();
 
-    } 
-  });
-});
+router.get(
+  "/",
+  function (req, res, next) {
+    pool.query("SELECT * FROM settings WHERE name='navbar'", function (err, resp) {
+      res.locals.navbarData = JSON.parse(resp.rows[0].value);
+      next();
+    });
+  },
+  function (req, res, next) {
+    res.render("index", { title: "Scouts Wondelgem", navbar: res.locals.navbarData });
+  }
+);
 
 module.exports = router;
