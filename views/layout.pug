@@ -18,17 +18,23 @@ html
         // - Hierin staat de content van de navbar 
         #navbarNavAltMarkup.collapse.navbar-collapse
           .navbar-nav
-            each val in navbar
-              if val.links
-                li(id="navbar"+val.naam).nav-item.dropdown 
-                  a(id="toggle"+val.naam href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false').nav-link.dropdown-toggle
+            if navbar
+              each val in navbar
+                if val.links
+                  li(id="navbar"+val.naam).nav-item.dropdown 
+                    a(id="toggle"+val.naam href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false').nav-link.dropdown-toggle
+                      | #{val.naam}
+                    .dropdown-menu(aria-labelledby="toggle"+val.naam)
+                      each link in val.links 
+                        a.dropdown-item(href=val.naam + "/" + link) #{link}
+                else
+                  a(id="navbar"+val.naam href=val.naam).nav-item.nav-link
                     | #{val.naam}
-                  .dropdown-menu(aria-labelledby="toggle"+val.naam)
-                    each link in val.links 
-                      a.dropdown-item(href=val.naam + "/" + link) #{link}
-              else
-                a(id="navbar"+val.naam href=val.naam).nav-item.nav-link
-                  | #{val.naam}
+            else
+              li
+                a navbar loading error
+
+
 
   block content
 

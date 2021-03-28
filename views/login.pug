@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    div.container 
+        form(action='' method='POST')
+            .form-group
+                label(for='email') Email
+                input.form-control(type='email', name='email' placeholder='Email' autofocus=true required="true")
+            .form-group
+                label(for='password') Wachtwoord
+                input#password.form-control(type='password' name='password' placeholder='Wachtwoord' required="true")
+            .form-group
+                a(href='/Login/reset') Wachtwoord vergeten?
+            .form-group
+                button.btn.btn-primary(type='submit') Login
