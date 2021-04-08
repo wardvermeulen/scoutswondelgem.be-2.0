@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  .container.mt-3
+    .col-12.col-md-5
+      .card
+        form(action='/aanmelden' method='POST').card-body
+          h3 Aanmelden
+          .form-group.mt-3
+            input.form-control(type='email', name='email' placeholder='Email' autofocus=true required="true")
+          .form-group
+            input#password.form-control(type='password' name='password' placeholder='Wachtwoord' required="true")
+          .form-group
+            a(href='/aanmelden/wachtwoord_vergeten') Wachtwoord vergeten?
+          .form-group
+            button.btn.btn-primary(type='submit') Login

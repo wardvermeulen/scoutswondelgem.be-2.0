@@ -1,45 +1,15 @@
 doctype html
 html
-  head
-    title= title
-    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js", integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj", crossorigin="anonymous")
-    link(rel="stylesheet", href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css", integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z", crossorigin="anonymous")
-    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js", integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV", crossorigin="anonymous")
+  block head 
+    include includes/head
+
   body
 
   block navbar
-    nav.navbar.navbar-expand-lg.navbar-light.bg-light
-      #navbar-container.container
-        // - Home knop
-        a.navbar-brand.abs(href='/')  Scouts Wondelgem
-        // - Knop die verschijnt bij kleine schermen 
-        button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation')
-          span.navbar-toggler-icon
-        // - Hierin staat de content van de navbar 
-        #navbarNavAltMarkup.collapse.navbar-collapse
-          .navbar-nav
-            if navbar
-              each val in navbar
-                if val.links
-                  li(id="navbar"+val.naam).nav-item.dropdown 
-                    a(id="toggle"+val.naam href='#' role='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false').nav-link.dropdown-toggle
-                      | #{val.naam}
-                    .dropdown-menu(aria-labelledby="toggle"+val.naam)
-                      each link in val.links 
-                        a.dropdown-item(href=val.naam + "/" + link) #{link}
-                else
-                  a(id="navbar"+val.naam href=val.naam).nav-item.nav-link
-                    | #{val.naam}
-            else
-              li
-                a navbar loading error
-
-
+    include includes/navbar
 
   block content
 
   block footer
-    footer.container.font-small.blue.fixed-bottom
-      .footer.text-center.py-3
-        | Footer
+    include includes/footer
 
