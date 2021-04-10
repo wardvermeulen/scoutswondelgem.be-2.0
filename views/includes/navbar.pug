@@ -17,9 +17,9 @@ block navbar
                         | #{val.naam}
                       .dropdown-menu(aria-labelledby="toggle"+val.naam)
                         each link in val.links 
-                          a.dropdown-item(href=val.naam.toLowerCase() + "/" + link) #{link}
+                          a.dropdown-item(href="/" + val.naam.toLowerCase() + "/" + link) #{link}
                   else
-                    a(id="navbar"+val.naam href=val.naam.toLowerCase()).nav-item.nav-link
+                    a(id="navbar"+val.naam href="/" + val.naam.toLowerCase()).nav-item.nav-link
                       | #{val.naam}
               .navbar-nav.ml-auto
                 each val in navbar.right
@@ -29,9 +29,9 @@ block navbar
                         | #{val.naam}
                       .dropdown-menu(aria-labelledby="toggle"+val.naam.toLowerCase())
                         each link in val.links 
-                          a.dropdown-item(href=val.naam + "/" + link) #{link}
+                          a.dropdown-item(href="/" + val.naam + "/" + link) #{link}
                   else
-                    a(id="navbar"+val.naam href=val.naam.toLowerCase()).nav-item.nav-link
+                    a(id="navbar"+val.naam href="/" + val.naam.toLowerCase()).nav-item.nav-link
                       | #{val.naam}
             else
               li
