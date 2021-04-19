@@ -32,6 +32,12 @@ app.use(
 app.use("/", indexRouter);
 app.use("/aanmelden", aanmeldenRouter);
 
+// Nodig om navbar van de database te halen, ook bij errors. Een externe handler lijkt niet
+// mogelijk te zijn dus is het hier gehardcoceerd.
+require("dotenv").config();
+const { Pool } = require("pg");
+const pool = new Pool();
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -43,9 +49,13 @@ app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render("error");
+  pool.query("SELECT * FROM settings WHERE name='navbar'", function (_err, resp) {
+    res.locals.navbarData = JSON.parse(resp.rows[0].value);
+
+    // render the error page
+    res.status(err.status || 500);
+    res.render("error", { navbar: res.locals.navbarData });
+  });
 });
 
 module.exports = app;
