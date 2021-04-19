@@ -5,6 +5,7 @@ block content
     .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5.card
       form#login(action='/aanmelden' method='POST').card-body
         h3 Aanmelden
+          img(src="/svg/info.svg" data-toggle="tooltip" data-placement="top" title="Aanmelden is strikt bedoeld voor de leidingsploeg en onze vzw.").ml-1
         #loginInfo
         .form-group.mt-3
           input.form-control(type='email', name='email' placeholder='Email' autofocus=true required="true")
@@ -14,6 +15,6 @@ block content
           a(href='/aanmelden/wachtwoord_vergeten') Wachtwoord vergeten?
         .form-group
           button#submit(type="submit", value="Aanmelden").btn.btn-primary Aanmelden
-
+  
 block js 
   script(src="/js/aanmelden.js") 
