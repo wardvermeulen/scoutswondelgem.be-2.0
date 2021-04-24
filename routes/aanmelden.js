@@ -15,7 +15,7 @@ router.get("/", navbarController.getNavbar, function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  pool.query("SELECT * FROM gebruikers WHERE email = $1", [req.body.email], function (err, resp) {
+  pool.query("SELECT * FROM gebruikers WHERE email = $1", [req.body.username], function (err, resp) {
     // Checken of er wel een resultaat is gevonden voor het mailadres.
     if (resp.rows.length == 0) {
       // res.send verstuurt gewoon een aantwoord naar ajax, de rest wordt bij de client afgehandeld.
@@ -24,10 +24,8 @@ router.post("/", function (req, res, next) {
     }
 
     // De gevonden hash vergelijken met het wachtwoord van de form
-    bcrypt.compare(req.body.password, resp.rows[0].password, function (err, result) {
-      if (result == false) {
-        res.send("failure");
-      } else {
+    bcrypt.compare(req.body.password, resp.rows[0].wachtwoord, function (err, result) {
+      if (result === true) {
         // Deze sessie boolean kan overal gebruikt worden om te controleren of de gebruiker is
         // aangemeld.
         req.session.loggedIn = true;
@@ -35,10 +33,12 @@ router.post("/", function (req, res, next) {
         // Aangezien de user nu ingelogd is, is het nuttig om ook de andere userdata bij te houden
         // in een sessie. Het gehashte wachtwoord wordt wel verwijderd, voor de veiligheid.
         req.session.userInformation = resp.rows[0];
-        delete req.session.userInformation.password;
+        delete req.session.userInformation.wachtwoord;
 
         // Ook de redirect wordt bij de client afgehandeld.
         res.send("success");
+      } else {
+        res.send("failure");
       }
     });
   });

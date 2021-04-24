@@ -1,0 +1,27 @@
+extends ../../layout
+
+block content
+  .container.mt-3 
+    h1= title
+    .table-responsive.mt-3
+      table.table.table-striped.table-hover
+        thead.thead-dark
+          tr
+          th Naam
+          th Emailadres
+          th Tak 
+          th Rollen
+        tbody
+          tr
+            th #{user.naam}
+            td #{user.email}
+            td #{user.tak}
+            td leeg 
+            td.text-right
+
+
+ 
+
+
+
+block js 

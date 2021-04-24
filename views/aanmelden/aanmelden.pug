@@ -3,18 +3,18 @@ extends ../layout
 block content
   .container.mt-3
     .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5.card
-      form#login(action='/aanmelden' method='POST').card-body
+      form#login(method='POST' action).card-body
         h3 Aanmelden
           img(src="/svg/info.svg" data-toggle="tooltip" data-placement="top" title="Aanmelden is strikt bedoeld voor de leidingsploeg en onze vzw.").ml-1
         #loginInfo
         .form-group.mt-3
-          input.form-control(type='email', name='email' placeholder='Email' autofocus=true required="true")
+          input.form-control(type='email', name='username' placeholder='Email' autofocus=true required)
         .form-group
-          input#password.form-control(type='password' name='password' placeholder='Wachtwoord' required="true")
+          input#password.form-control(type='password' name='password' placeholder='Wachtwoord' required)
         .form-group
           a(href='/aanmelden/wachtwoord_vergeten') Wachtwoord vergeten?
         .form-group
-          button#submit(type="submit", value="Aanmelden").btn.btn-primary Aanmelden
+          input#submit(type="submit", value="Aanmelden").btn.btn-primary 
   
 block js 
   script(src="/js/aanmelden.js") 

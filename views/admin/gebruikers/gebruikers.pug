@@ -1,0 +1,28 @@
+extends ../../layout
+
+block content
+  .container.mt-3 
+    h1= title
+    .table-responsive.mt-3
+      table.table.table-striped.table-hover
+        thead.thead-dark
+          tr
+          th Naam
+          th Emailadres
+          th Tak 
+          th Rollen
+          th
+        tbody
+          each user in users
+            tr
+              th #{user.naam}
+              td #{user.email}
+              td #{user.tak}
+              td leeg 
+              td.text-right
+                a(href="./gebruikers/bewerken/" + user.id)
+                  button.btn.btn-info.btn-sm.mr-2 Bewerken
+                a(href="./gebruikers/verwijderen/" + user.id)
+                  button.btn.btn-danger.btn-sm Verwijderen
+              
+block js 

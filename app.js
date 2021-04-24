@@ -9,6 +9,7 @@ require("dotenv").config();
 
 var indexRouter = require("./routes/index");
 var aanmeldenRouter = require("./routes/aanmelden");
+var adminRouter = require("./routes/admin");
 
 var app = express();
 
@@ -31,6 +32,7 @@ app.use(
 
 app.use("/", indexRouter);
 app.use("/aanmelden", aanmeldenRouter);
+app.use("/admin", adminRouter);
 
 // Nodig om navbar van de database te halen, ook bij errors. Een externe handler lijkt niet
 // mogelijk te zijn dus is het hier gehardcoceerd.
@@ -50,9 +52,10 @@ app.use(function (err, req, res, next) {
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
   pool.query("SELECT * FROM settings WHERE name='navbar'", function (_err, resp) {
-    res.locals.navbarData = JSON.parse(resp.rows[0].value);
+    if (!_err) {
+      res.locals.navbarData = JSON.parse(resp.rows[0].value);
+    }
 
-    // render the error page
     res.status(err.status || 500);
     res.render("error", { navbar: res.locals.navbarData });
   });
