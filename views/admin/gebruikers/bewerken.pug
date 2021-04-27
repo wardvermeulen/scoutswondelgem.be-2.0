@@ -1,23 +1,31 @@
 extends ../../layout
 
 block content
-  .container.mt-3 
-    h1= title
-    .table-responsive.mt-3
-      table.table.table-striped.table-hover
-        thead.thead-dark
-          tr
-          th Naam
-          th Emailadres
-          th Tak 
-          th Rollen
-        tbody
-          tr
-            th #{user.naam}
-            td #{user.email}
-            td #{user.tak}
-            td leeg 
-            td.text-right
+  .container.mt-3.mb-3
+    .col-12.col-sm-10.col-md-8.col-lg-6.col-xl-5.card
+      form#bewerken(method="POST").card-body
+        h3 Gebruiker bewerken
+        .form-group
+          label(for="formMail").ml-3 E-mailadres 
+            span.text-danger *
+          input#formMail(type="email", name="email" placeholder="E-mailadres" value=user.email required).form-control
+        .form-group
+          label(for="formNaam").ml-3 Voornaam Achternaam 
+            span.text-danger *
+          input#formNaam(type="text", name="naam" placeholder="Voornaam Achternaam" value=user.naam required).form-control
+        .form-group
+          label(for="formWachtwoord").ml-3 Nieuw Wachtwoord 
+          input#formWachtwoord(type="password", name="wachtwoord" placeholder="Nieuw Wachtwoord").form-control
+        .form-group
+          label(for="formGSM").ml-3 GSM-nummer (Formaat: 04XX/XX.XX.XX) 
+          input#formGSM(type="text", name="gsm" placeholder="GSM-nummer" value=user.gsm).form-control
+        .form-group
+          label(for="formTak").ml-3 Tak 
+          select#formTak(name="tak").custom-select
+            option(value="Geen") Geen  
+            option(value=user.tak) #{user.tak}
+        .form-group 
+          input(type="submit", value="Opslaan").btn.btn-primary
 
 
  
