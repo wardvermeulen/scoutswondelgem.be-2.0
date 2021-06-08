@@ -1,0 +1,112 @@
+{
+  "main": {
+    "id": "17d44ec53a7de350",
+    "type": "split",
+    "children": [
+      {
+        "id": "378f6ff0fa6968cd",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "Specificaties/Admin/Aanmelden.md",
+            "mode": "source"
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cbfa67b7a4ef27b3",
+    "type": "split",
+    "children": [
+      {
+        "id": "7b47b63b161950ec",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "bb2bec457d1baefe",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "7d040bd99c33a1b6",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d8e243557abc126c",
+    "type": "split",
+    "children": [
+      {
+        "id": "3ecefcc9b2a5c0a9",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a0aaf60ece03efea",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Specificaties/Admin/Aanmelden.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "33d99a24495c0641",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Specificaties/Admin/Aanmelden.md"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "378f6ff0fa6968cd",
+  "lastOpenFiles": [
+    "Specificaties/Admin/Aanmelden.md",
+    "Specificaties/Admin/Admin - Overzicht.md",
+    "Specificaties/Database/Gebruikers.md",
+    "Specificaties/Admin/Login.md",
+    "Specificaties/Database/Database - Overzicht.md",
+    "Hoofdpagina.md",
+    "Specificaties/Database/Untitled.md",
+    "Specificaties/Bezoeker/Bezoeker - Overzicht.md",
+    "Untitled.md",
+    "Specificaties/Admin/Overzicht.md"
+  ]
+}
