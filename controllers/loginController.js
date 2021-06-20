@@ -9,6 +9,17 @@ exports.checkLogin = function (req, res, next) {
   if (req.session.loggedIn === true) {
     next();
   } else if (req.cookies.aangemeld_blijven) {
+    checkCookie(req, res, next);
+  } else {
+    next(createError(403, "403: Verboden toegang!"));
+  }
+};
+
+exports.checkCookie = function (req, res, next) {
+  // ! Deze check blijft noodzakelijk, ook al staat die vanboven nog eens.
+  // De functie wordt namelijk apart gebruikt in aanmelden.js, omdat daar geen 403 error moet
+  // gecreëerd worden als iemand niet is ingelogd.
+  if (req.cookies.aangemeld_blijven) {
     // Hier wordt gecontroleerd op de geldigheid van de cookie. Indien de cookie geldig is,
     // wordt de gebruiker ingelogd.
 
@@ -61,6 +72,6 @@ exports.checkLogin = function (req, res, next) {
       }
     );
   } else {
-    next(createError(403, "403: Verboden toegang!"));
+    return next();
   }
 };

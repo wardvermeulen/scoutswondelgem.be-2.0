@@ -10,13 +10,11 @@ const shajs = require("sha.js");
 var navbarController = require("../controllers/navbarController");
 var loginController = require("../controllers/loginController");
 
-router.get("/", loginController.checkLogin, navbarController.getNavbar, function (req, res, next) {
+router.get("/", loginController.checkCookie, navbarController.getNavbar, function (req, res, next) {
   if (req.session.loggedIn) {
-    return res.render("aanmelden/afmelden", {
-      title: "Afmelden",
-      navbar: res.locals.navbarData,
-    });
+    return res.redirect("/afmelden");
   }
+
   res.render("aanmelden/aanmelden", {
     title: "Aanmelden",
     navbar: res.locals.navbarData,
