@@ -4,14 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "378f6ff0fa6968cd",
+        "id": "26914c6afd174755",
         "type": "leaf",
         "state": {
-          "type": "markdown",
-          "state": {
-            "file": "Specificaties/Admin/Aanmelden.md",
-            "mode": "source"
-          }
+          "type": "graph",
+          "state": {}
         }
       }
     ],
@@ -68,7 +65,6 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Specificaties/Admin/Aanmelden.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -84,28 +80,27 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {
-                "file": "Specificaties/Admin/Aanmelden.md"
-              }
+              "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
     "width": 300,
     "collapsed": true
   },
-  "active": "378f6ff0fa6968cd",
+  "active": "26914c6afd174755",
   "lastOpenFiles": [
-    "Specificaties/Admin/Aanmelden.md",
-    "Specificaties/Admin/Admin - Overzicht.md",
-    "Specificaties/Database/Gebruikers.md",
-    "Specificaties/Admin/Login.md",
     "Specificaties/Database/Database - Overzicht.md",
     "Hoofdpagina.md",
-    "Specificaties/Database/Untitled.md",
+    "Specificaties/Admin/Aanmelden.md",
+    "Specificaties/Admin/Admin - Overzicht.md",
     "Specificaties/Bezoeker/Bezoeker - Overzicht.md",
+    "Specificaties/Database/Gebruikers.md",
+    "Specificaties/Admin/Login.md",
+    "Specificaties/Database/Untitled.md",
     "Untitled.md",
     "Specificaties/Admin/Overzicht.md"
   ]
