@@ -7,7 +7,7 @@ function Index(props) {
     <Layout {...props}>
       <div className="container mt-3">
         <div className="col-12-col-sm-10 col-md-8 col-lg-6 col-xl-5 card">
-          <form method="POST" action id="login" className="card-body">
+          <form method="POST" id="login" className="card-body">
             <h3>
               Aanmelden
               <img
@@ -19,18 +19,11 @@ function Index(props) {
               />
             </h3>
 
-            <div id="loginInfo"></div>
+            <div id="loginInfo" className="my-2"></div>
 
             {/* Email input */}
             <div className="form-group mt-3">
-              <input
-                type="email"
-                className="form-control"
-                name="username"
-                placeholder="Email"
-                autofocus="true"
-                required
-              />
+              <input type="email" className="form-control" name="email" placeholder="Email" required />
             </div>
 
             {/* Wachtwoord input */}
@@ -38,11 +31,18 @@ function Index(props) {
               <input
                 type="password"
                 className="form-control"
-                id="password"
-                name="password"
+                id="wachtwoord"
+                name="wachtwoord"
                 placeholder="Wachtwoord"
                 required
               />
+            </div>
+
+            <div className="custom-control custom-checkbox my-2">
+              <input type="checkbox" className="custom-control-input" name="aangemeldBlijven" id="aangemeldBlijven" />
+              <label htmlFor="aangemeldBlijven" className="custom-control-label">
+                Aangemeld blijven
+              </label>
             </div>
 
             {/* Wachtwoord vergeten */}

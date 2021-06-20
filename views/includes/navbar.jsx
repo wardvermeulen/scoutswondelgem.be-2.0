@@ -2,12 +2,10 @@ var React = require("react");
 
 function NavLink(props) {
   if (props.links) {
-    const links = [];
-
-    props.links.forEach((link) => {
-      links.push(
-        <a href={"/" + props.naam.toLowerCase() + "/" + link} className="dropdown-item">
-          {link}
+    var links = props.links.map(function (value, index) {
+      return (
+        <a key={index} href={"/" + props.naam.toLowerCase() + "/" + value} className="dropdown-item">
+          {value}
         </a>
       );
     });
@@ -40,17 +38,14 @@ function NavLink(props) {
 }
 
 function Navbar(props) {
-  const navLinksLeft = [];
-  const navLinksRight = [];
   let navContent;
 
   if (props.navbar) {
-    props.navbar.left.forEach((element) => {
-      navLinksLeft.push(<NavLink links={element.links} naam={element.naam}></NavLink>);
+    var navLinksLeft = props.navbar.left.map(function (value, index) {
+      return <NavLink key={index} links={value.links} naam={value.naam}></NavLink>;
     });
-
-    props.navbar.right.forEach((element) => {
-      navLinksRight.push(<NavLink links={element.links} naam={element.naam}></NavLink>);
+    var navLinksRight = props.navbar.right.map(function (value, index) {
+      return <NavLink key={index} links={value.links} naam={value.naam}></NavLink>;
     });
 
     navContent = (
