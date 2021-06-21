@@ -12,7 +12,10 @@ var loginController = require("../controllers/loginController");
 
 //router.get("/", navbarController.getNavbar, indexController.get);
 
+// * Gebruikers *
+
 router.get("/gebruikers", loginController.checkLogin, navbarController.getNavbar, gebruikersController.get);
+
 router.get(
   "/gebruikers/bewerken/:id",
   loginController.checkLogin,

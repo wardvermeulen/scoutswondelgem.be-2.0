@@ -9,7 +9,7 @@ exports.checkLogin = function (req, res, next) {
   if (req.session.loggedIn === true) {
     next();
   } else if (req.cookies.aangemeld_blijven) {
-    checkCookie(req, res, next);
+    exports.checkCookie(req, res, next);
   } else {
     next(createError(403, "403: Verboden toegang!"));
   }

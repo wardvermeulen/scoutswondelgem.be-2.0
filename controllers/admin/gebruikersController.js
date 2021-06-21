@@ -6,7 +6,9 @@ const pool = new Pool();
 
 exports.get = function (req, res, next) {
   pool.query("SELECT * FROM gebruikers ORDER BY naam ASC", function (err, resp) {
-    if (!err) {
+    if (err) {
+      // ! Somehow log error
+    } else {
       res.render("admin/gebruikers/gebruikers", {
         title: "Gebruikers",
         navbar: res.locals.navbarData,
@@ -19,6 +21,7 @@ exports.get = function (req, res, next) {
 exports.getBewerken = function (req, res, next) {
   pool.query("SELECT * FROM gebruikers WHERE id = $1", [req.params.id], function (err, resp) {
     if (err) {
+      // ! Somehow log error
       next(createError(500, "Interne serverfout."));
     } else if (!resp.rows[0]) {
       next(createError(400, "Gebruiker niet gevonden."));
