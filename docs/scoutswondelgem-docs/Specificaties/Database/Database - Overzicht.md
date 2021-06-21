@@ -1,3 +1,0 @@
-
-[[Gebruikers]]
-[[Authentication Tokens]]
