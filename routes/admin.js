@@ -17,7 +17,7 @@ var loginController = require("../controllers/loginController");
 router.get("/gebruikers", loginController.checkLogin, navbarController.getNavbar, gebruikersController.get);
 
 router.get(
-  "/gebruikers/bewerken/:id",
+  "/gebruikers/bewerken/:id?",
   loginController.checkLogin,
   navbarController.getNavbar,
   gebruikersController.getBewerken

@@ -9,6 +9,12 @@ function Gebruikers(props) {
         <th>{value.naam}</th>
         <td>{value.email}</td>
         <td>{value.tak}</td>
+        <td>
+          {value.rollen.map(function (value, index, array) {
+            if (index == array.length - 1) return value;
+            return value + ", ";
+          })}
+        </td>
         <td className="text-right">
           <a href={"./gebruikers/bewerken/" + value.id}>
             <button className="btn btn-info btn-sm mr-2">Bewerken</button>
@@ -32,6 +38,7 @@ function Gebruikers(props) {
                 <th>Naam</th>
                 <th>Emailadres</th>
                 <th>Tak</th>
+                <th>Rollen</th>
                 <th></th>
               </tr>
             </thead>

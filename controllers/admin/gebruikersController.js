@@ -5,26 +5,32 @@ const { Pool } = require("pg");
 const pool = new Pool();
 
 exports.get = function (req, res, next) {
-  pool.query("SELECT * FROM gebruikers ORDER BY naam ASC", function (err, resp) {
-    if (err) {
-      // ! Somehow log error
-    } else {
-      res.render("admin/gebruikers/gebruikers", {
-        title: "Gebruikers",
-        navbar: res.locals.navbarData,
-        users: resp.rows,
-      });
+  pool.query(
+    "SELECT id, naam, email, tak, afbeelding, json_agg(DISTINCT rol ORDER BY rol ASC) AS rollen FROM public.gebruikers " +
+      "LEFT JOIN gebruikers_rollen ON (gebruikers.id = gebruikers_rollen.gebruiker) " +
+      "GROUP BY id, naam, email, tak, afbeelding ORDER BY naam ASC",
+    function (err, resp) {
+      if (err) {
+        // ! Somehow log error
+      } else {
+        res.render("admin/gebruikers/gebruikers", {
+          title: "Gebruikers",
+          navbar: res.locals.navbarData,
+          users: resp.rows,
+        });
+      }
     }
-  });
+  );
 };
 
 exports.getBewerken = function (req, res, next) {
+  if (!req.params.id) return res.redirect("/admin/gebruikers");
   pool.query("SELECT * FROM gebruikers WHERE id = $1", [req.params.id], function (err, resp) {
     if (err) {
       // ! Somehow log error
       next(createError(500, "Interne serverfout."));
     } else if (!resp.rows[0]) {
-      next(createError(400, "Gebruiker niet gevonden."));
+      next(createError(400, "400: Gebruiker niet gevonden."));
     } else {
       res.render("admin/gebruikers/bewerken", {
         title: resp.rows[0].naam,
