@@ -10,7 +10,10 @@ var indexController = require("../controllers/admin/indexController");
 var gebruikersController = require("../controllers/admin/gebruikersController");
 var loginController = require("../controllers/loginController");
 
-//router.get("/", navbarController.getNavbar, indexController.get);
+// router.get("/", navbarController.getNavbar, indexController.get);
+router.get("/", function (req, res, next) {
+  res.redirect("/admin/gebruikers");
+});
 
 // * Gebruikers *
 

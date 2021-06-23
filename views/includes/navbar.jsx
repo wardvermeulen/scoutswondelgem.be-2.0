@@ -1,11 +1,11 @@
 var React = require("react");
 
 function NavLink(props) {
-  if (props.links) {
-    var links = props.links.map(function (value, index) {
+  if (props.dropdown_items) {
+    var links = props.dropdown_items.map(function (value, index) {
       return (
-        <a key={index} href={"/" + props.naam.toLowerCase() + "/" + value} className="dropdown-item">
-          {value}
+        <a key={index} href={"/" + props.tabel_en_url_naam + "/" + value.url_naam} className="dropdown-item">
+          {value.naam}
         </a>
       );
     });
@@ -13,7 +13,7 @@ function NavLink(props) {
     return (
       <li id={"navbar" + props.naam} className="nav-item dropdown">
         <a
-          href="#"
+          href=""
           id={"toggle" + props.naam}
           role="button"
           data-toggle="dropdown"
@@ -30,7 +30,7 @@ function NavLink(props) {
     );
   } else {
     return (
-      <a id={"navbar" + props.naam} href={"/" + props.naam.toLowerCase()} className="nav-item nav-link">
+      <a id={"navbar" + props.naam} href={"/" + props.tabel_en_url_naam} className="nav-item nav-link">
         {props.naam}
       </a>
     );
@@ -41,11 +41,29 @@ function Navbar(props) {
   let navContent;
 
   if (props.navbar) {
-    var navLinksLeft = props.navbar.left.map(function (value, index) {
-      return <NavLink key={index} links={value.links} naam={value.naam}></NavLink>;
+    var navLinksLeft = props.navbar.map(function (value, index) {
+      if (value.rechts == false) {
+        return (
+          <NavLink
+            key={index}
+            dropdown_items={value.dropdown_items}
+            naam={value.naam}
+            tabel_en_url_naam={value.tabel_en_url_naam}
+          ></NavLink>
+        );
+      }
     });
-    var navLinksRight = props.navbar.right.map(function (value, index) {
-      return <NavLink key={index} links={value.links} naam={value.naam}></NavLink>;
+    var navLinksRight = props.navbar.map(function (value, index) {
+      if (value.rechts == true) {
+        return (
+          <NavLink
+            key={index}
+            dropdown_items={value.dropdown_items}
+            naam={value.naam}
+            tabel_en_url_naam={value.tabel_en_url_naam}
+          ></NavLink>
+        );
+      }
     });
 
     navContent = (

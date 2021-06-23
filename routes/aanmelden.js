@@ -17,7 +17,7 @@ router.get("/", loginController.checkCookie, navbarController.getNavbar, functio
 
   res.render("aanmelden/aanmelden", {
     title: "Aanmelden",
-    navbar: res.locals.navbarData,
+    navbar: req.session.navbarData,
   });
 });
 
@@ -65,7 +65,12 @@ router.post(
     // Check de documentatie voor dit gedeelte!
 
     // Controleren op uniciteit van de  series identifier.
-    const seriesIDs = await pool.query("SELECT series_id FROM authentication_tokens");
+    let seriesIDs;
+    try {
+      seriesIDs = await pool.query("SELECT series_id FROM authentication_tokens");
+    } catch (err) {
+      // ! Somehow log this
+    }
     var seriesID = randomstring.generate(20);
     while (seriesIDs.rows.includes(seriesID)) {
       seriesID = randomstring.generate(20);
@@ -84,7 +89,7 @@ router.post(
       [seriesID, tokenHashed, req.session.userInformation.id, expirationDate],
       function (err, resp) {
         if (err) {
-          console.log(err);
+          // ! Somehow log this
           return res.send("error");
         }
 
@@ -99,7 +104,7 @@ router.post(
 router.get("/wachtwoord_vergeten", navbarController.getNavbar, function (req, res, next) {
   res.render("aanmelden/wachtwoord_vergeten", {
     title: "Wachtwoord Vergeten",
-    navbar: res.locals.navbarData,
+    navbar: req.session.navbarData,
   });
 });
 
