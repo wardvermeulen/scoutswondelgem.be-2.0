@@ -12,7 +12,7 @@ var loginController = require("../controllers/loginController");
 
 router.get("/", loginController.checkCookie, navbarController.getNavbar, function (req, res, next) {
   if (req.session.loggedIn) {
-    return res.redirect("/afmelden");
+    return res.redirect("/admin");
   }
 
   res.render("aanmelden/aanmelden", {
