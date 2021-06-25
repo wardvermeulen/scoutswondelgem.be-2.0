@@ -7,7 +7,7 @@ function Bewerken(props) {
     <Layout {...props}>
       <div className="container col-12 col-sm-10 col-md-8 col-lg-5 col-xl-4">
         <div className="card m-3">
-          <form method="POST" id="bewerken" className="card-body">
+          <form method="POST" id="bewerken" className="card-body" autoComplete="off">
             <span>
               <h3>
                 <span>
@@ -18,6 +18,8 @@ function Bewerken(props) {
                 </span>
               </h3>
             </span>
+
+            <div id="bewerkenInfo" className="my-2"></div>
 
             <div className="form-group">
               <label htmlFor="formNaam" className="ml-3">
@@ -59,6 +61,7 @@ function Bewerken(props) {
                 id="formWachtwoord"
                 className="form-control"
                 placeholder="Laat leeg om niet aan te passen"
+                autoComplete="new-password"
               />
             </div>
 
@@ -66,7 +69,14 @@ function Bewerken(props) {
               <label htmlFor="formGSM" className="ml-3">
                 GSM-nummer (formaat: 04XX/XX.XX.XX)
               </label>
-              <input type="tel" name="gsm" id="formGSM" className="form-control" placeholder="GSM-nummer" />
+              <input
+                type="tel"
+                name="gsm"
+                id="formGSM"
+                className="form-control"
+                placeholder="GSM-nummer"
+                defaultValue={props.gebruiker.gsm == null ? "" : props.gebruiker.gsm}
+              />
             </div>
 
             <div className="form-group">
@@ -84,14 +94,14 @@ function Bewerken(props) {
                         {value.naam}
                       </option>
                     );
+                  } else {
+                    return (
+                      <option key={index} value={value.naam}>
+                        {value.naam}
+                      </option>
+                    );
                   }
-                  return (
-                    <option key={index} value={value.naam}>
-                      {value.naam}
-                    </option>
-                  );
                 })}
-                <option value={props.gebruiker.tak}>{props.gebruiker.tak}</option>
               </select>
             </div>
 
@@ -107,7 +117,7 @@ function Bewerken(props) {
                         type="checkbox"
                         name="rollen"
                         id={"rol" + value.naam}
-                        value={value}
+                        value={value.naam}
                         defaultChecked={props.gebruiker.rollen.includes(value.naam) ? true : false}
                       />
                       <label htmlFor={"rol" + value.naam} className="ml-1">
@@ -120,11 +130,15 @@ function Bewerken(props) {
             </div>
 
             <div className="form-group">
-              <input type="submit" value="Opslaan" className="btn btn-primary" />
+              <button type="submit" id="submit" className="btn btn-primary">
+                Opslaan
+              </button>
             </div>
           </form>
         </div>
       </div>
+
+      <script src="/js/admin/gebruikers/bewerken.js"></script>
     </Layout>
   );
 }

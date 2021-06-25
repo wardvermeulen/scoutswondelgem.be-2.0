@@ -3,9 +3,9 @@ var createError = require("http-errors");
 
 const { Pool } = require("pg");
 const pool = new Pool();
+const bcrypt = require("bcrypt");
 
 exports.get = function (req, res, next) {
-  console.log(req.session.gebruikersInformatie);
   // Query die enkel de noodzakelijke informatie van de gebruikers ophaalt, en alle rollen die
   // de gebruiker heeft, aggregeert naar json!
   pool.query(
@@ -46,7 +46,7 @@ exports.getBewerken = async function (req, res, next) {
   }
 
   try {
-    takken = await pool.query("SELECT naam, volgorde FROM takken");
+    takken = await pool.query("SELECT naam, volgorde FROM takken ORDER BY volgorde ASC");
   } catch (err) {
     // ! Somehow log error
     return next(createError(500, "500: Interne serverfout."));
@@ -70,4 +70,123 @@ exports.getBewerken = async function (req, res, next) {
     takken: takken.rows,
     rollen: rollen.rows,
   });
+};
+
+exports.postBewerken = async function (req, res, next) {
+  if (!req.params.id) {
+    return res.send("Er moet een ID opgegeven worden!");
+  }
+
+  if (req.body.afbeelding == "") req.body.afbeelding = null;
+  if (req.body.gsm == "") req.body.gsm = null;
+  if (req.body.tak == "Geen") req.body.tak = null;
+  if (req.body.naam == "") return res.send("Er moet een naam worden opgegeven!");
+  if (req.body.email == "") return res.send("Er moet een naam worden opgegeven!");
+
+  let inTakken, inRollen;
+  try {
+    inTakken = await pool.query("SELECT * FROM takken WHERE naam = $1", [req.body.tak]);
+  } catch (err) {
+    return res.send("Interne serverfout!");
+  }
+
+  if (inTakken.rowCount == 0) {
+    return res.send("De tak (" + req.body.tak + ") die u heeft opgegeven bestaat niet!");
+  }
+
+  if (req.body.rollen) {
+    if (!Array.isArray(req.body.rollen)) {
+      req.body.rollen = [req.body.rollen];
+    }
+    for (const rol of req.body.rollen) {
+      try {
+        inRollen = await pool.query("SELECT * FROM rollen WHERE naam = $1", [rol]);
+      } catch (err) {
+        return res.send("Interne serverfout!");
+      }
+      if (inRollen.rowCount == 0) {
+        return res.send("De rol (" + rol + ") die u heeft opgegeven bestaat niet.");
+      }
+    }
+  }
+
+  let hashedWachtwoord = null;
+  if (req.body.wachtwoord != "") {
+    hashedWachtwoord = await bcrypt.hash(req.body.wachtwoord, 6);
+  }
+
+  if (hashedWachtwoord) {
+    try {
+      // TODO: Alle authentication_tokens verwijderen!
+      await pool.query(
+        "UPDATE gebruikers SET " +
+          "email = $1, " +
+          "naam = $2, " +
+          "wachtwoord = $3, " +
+          "tak = $4, " +
+          "gsm = $5 " +
+          "WHERE id = $6",
+        [req.body.email, req.body.naam, hashedWachtwoord, req.body.tak, req.body.gsm, req.params.id]
+      );
+    } catch (err) {
+      return res.send("Interne serverfout!");
+    }
+  } else {
+    try {
+      await pool.query(
+        "UPDATE gebruikers SET " + "email = $1, " + "naam = $2, " + "tak = $3, " + "gsm = $4 " + "WHERE id = $5",
+        [req.body.email, req.body.naam, req.body.tak, req.body.gsm, req.params.id]
+      );
+    } catch (err) {
+      if (err.code == 23505) {
+        return res.send("Dat emailadres wordt al gebruikt voor een andere gebruiker. " + err.detail);
+      }
+      return res.send("Interne serverfout!");
+    }
+  }
+
+  let rollen;
+  try {
+    rollen = (await pool.query("SELECT rol FROM gebruikers_rollen WHERE gebruiker = $1", [req.params.id])).rows;
+  } catch (err) {
+    return res.send("Interne serverfout!");
+  }
+
+  if (rollen) {
+    if (!req.body.rollen) {
+      try {
+        await pool.query("DELETE FROM gebruikers_rollen WHERE gebruiker = $1", [req.params.id]);
+      } catch (err) {
+        return res.send("Interne serverfout!");
+      }
+    } else {
+      for (const element of rollen) {
+        if (!req.body.rollen.includes(element.rol)) {
+          try {
+            await pool.query("DELETE FROM gebruikers_rollen WHERE gebruiker = $1 AND rol = $2", [
+              req.params.id,
+              element.rol,
+            ]);
+          } catch (err) {
+            return res.send("Interne serverfout!");
+          }
+        }
+      }
+    }
+  }
+
+  if (req.body.rollen) {
+    for (const rol of req.body.rollen) {
+      try {
+        await pool.query("INSERT INTO gebruikers_rollen (gebruiker, rol) VALUES ($1, $2) ON CONFLICT DO NOTHING", [
+          req.params.id,
+          rol,
+        ]);
+      } catch (err) {
+        return res.send("Interne serverfout!");
+      }
+    }
+  }
+
+  res.send("success");
 };

@@ -39,4 +39,15 @@ router.get(
   gebruikersController.getBewerken
 );
 
+router.post(
+  "/gebruikers/bewerken/:id?",
+  function (req, res, next) {
+    res.locals.checkRol = "/gebruikers/bewerken";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  gebruikersController.postBewerken
+);
+
 module.exports = router;
