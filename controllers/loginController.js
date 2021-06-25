@@ -17,12 +17,16 @@ exports.checkLogin = async function (req, res, next) {
     try {
       await exports.getGebruikersInformatie(req, res, next);
     } catch (err) {
+      console.log(err);
       return next(createError(err.code, err.msg));
     }
 
     // Als er geen checkRol wordt meegegeven vooraleer de checkLogin functie wordt opgeroepen,
     // dan is de pagina beschikbaar voor elke ingelogde gebruiker!
     if (res.locals.checkRol) {
+      if (!req.session.gebruikersInformatie.rollen) {
+        return next(createError(403, "403: Verboden toegang!"));
+      }
       if (!req.session.gebruikersInformatie.rollen.includes(res.locals.checkRol)) {
         return next(createError(403, "403: Verboden toegang!"));
       }
@@ -115,6 +119,7 @@ exports.getGebruikersInformatie = async function (req, res, next) {
     ]);
   } catch (err) {
     // ! Somehow log this
+    console.log(err);
     throw { code: 500, msg: "500: Interne serverfout." };
   }
 
@@ -142,13 +147,17 @@ exports.getRollen = async function (req, res, next) {
         "LEFT JOIN gebruikers_rollen ON (gebruikers.id = gebruikers_rollen.gebruiker) " +
         "INNER JOIN rollen ON (gebruikers_rollen.rol = rollen.naam)" +
         "INNER JOIN toegangen ON (rollen.toegang = toegangen.naam)" +
-        "WHERE gebruikers.id = 1" +
-        "GROUP BY id"
+        "WHERE gebruikers.id = $1" +
+        "GROUP BY id",
+      [req.session.gebruikersInformatie.id]
     );
   } catch (err) {
     // ! Somehow log this
+    console.log(err);
     throw { code: 500, msg: "500: Interne serverfout." };
   }
 
-  req.session.gebruikersInformatie.rollen = result.rows[0].rollen;
+  if (result.rowCount != 0) {
+    req.session.gebruikersInformatie.rollen = result.rows[0].rollen;
+  }
 };

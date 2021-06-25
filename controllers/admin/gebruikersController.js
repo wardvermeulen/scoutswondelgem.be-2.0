@@ -5,6 +5,7 @@ const { Pool } = require("pg");
 const pool = new Pool();
 
 exports.get = function (req, res, next) {
+  console.log(req.session.gebruikersInformatie);
   // Query die enkel de noodzakelijke informatie van de gebruikers ophaalt, en alle rollen die
   // de gebruiker heeft, aggregeert naar json!
   pool.query(

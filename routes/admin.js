@@ -17,12 +17,21 @@ router.get("/", function (req, res, next) {
 
 // * Gebruikers *
 
-router.get("/gebruikers", loginController.checkLogin, navbarController.getNavbar, gebruikersController.get);
+router.get(
+  "/gebruikers",
+  function (req, res, next) {
+    res.locals.checkRol = "/gebruikers";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  gebruikersController.get
+);
 
 router.get(
   "/gebruikers/bewerken/:id?",
   function (req, res, next) {
-    res.locals.url = "/gebruikers/bewerken";
+    res.locals.checkRol = "/gebruikers/bewerken";
     return next();
   },
   loginController.checkLogin,

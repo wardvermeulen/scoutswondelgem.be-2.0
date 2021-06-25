@@ -29,7 +29,7 @@ router.post(
       if (err) return res.send("error");
 
       // Checken of er wel een resultaat is gevonden voor het mailadres.
-      if (resp.rows.length == 0) {
+      if (resp.rowCount == 0) {
         // res.send verstuurt gewoon een aantwoord naar ajax, de rest wordt bij de client afgehandeld.
         res.send("failure");
         return;
