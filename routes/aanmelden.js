@@ -10,9 +10,9 @@ const shajs = require("sha.js");
 var navbarController = require("../controllers/navbarController");
 var loginController = require("../controllers/loginController");
 
-router.get("/", loginController.checkCookie, navbarController.getNavbar, function (req, res, next) {
-  if (req.session.loggedIn) {
-    return res.redirect("/afmelden");
+router.get("/", loginController.checkLogin, navbarController.getNavbar, function (req, res, next) {
+  if (req.session.ingelogd) {
+    return res.redirect("/admin");
   }
 
   res.render("aanmelden/aanmelden", {
@@ -40,12 +40,12 @@ router.post(
         if (result === true) {
           // Deze sessie boolean kan overal gebruikt worden om te controleren of de gebruiker is
           // aangemeld.
-          req.session.loggedIn = true;
+          req.session.ingelogd = true;
 
           // Aangezien de user nu ingelogd is, is het nuttig om ook de andere userdata bij te houden
           // in een sessie. Het gehashte wachtwoord wordt wel verwijderd, voor de veiligheid.
-          req.session.userInformation = resp.rows[0];
-          delete req.session.userInformation.wachtwoord;
+          req.session.gebruikersInformatie = resp.rows[0];
+          delete req.session.gebruikersInformatie.wachtwoord;
 
           if (req.body.aangemeldBlijven) {
             // Als de user vraagt om aangemeld te blijven, wordt er doorverwezen naar de volgende
@@ -86,7 +86,7 @@ router.post(
     // Nu enkel nog de token hashen en de data in de database plaatsen.
     pool.query(
       "INSERT INTO authentication_tokens (series_id, token, gebruikers_id, vervaldatum) VALUES ($1, $2, $3, $4)",
-      [seriesID, tokenHashed, req.session.userInformation.id, expirationDate],
+      [seriesID, tokenHashed, req.session.gebruikersInformatie.id, expirationDate],
       function (err, resp) {
         if (err) {
           // ! Somehow log this

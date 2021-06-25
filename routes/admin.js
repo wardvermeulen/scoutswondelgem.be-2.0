@@ -21,6 +21,10 @@ router.get("/gebruikers", loginController.checkLogin, navbarController.getNavbar
 
 router.get(
   "/gebruikers/bewerken/:id?",
+  function (req, res, next) {
+    res.locals.url = "/gebruikers/bewerken";
+    return next();
+  },
   loginController.checkLogin,
   navbarController.getNavbar,
   gebruikersController.getBewerken

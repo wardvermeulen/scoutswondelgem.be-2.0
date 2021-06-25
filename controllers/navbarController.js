@@ -8,9 +8,9 @@ exports.getNavbar = async function (req, res, next) {
 
   // Afhankelijk van of de gebruiker is aangemeld of niet, wordt tabel ingesteld op "gebruiker" of
   // op "admin".
-  if (!req.session.loggedIn || req.session.loggedIn == false) {
+  if (!req.session.ingelogd || req.session.ingelogd == false) {
     tabel = "gebruiker";
-  } else if (req.session.loggedIn == true) {
+  } else if (req.session.ingelogd == true) {
     tabel = "admin";
   }
 

@@ -13,7 +13,7 @@ function NavLink(props) {
     return (
       <li id={"navbar" + props.naam} className="nav-item dropdown">
         <a
-          href=""
+          href={props.tabel_en_url_naam}
           id={"toggle" + props.naam}
           role="button"
           data-toggle="dropdown"

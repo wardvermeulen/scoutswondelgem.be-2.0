@@ -4,15 +4,6 @@ var createError = require("http-errors");
 const { Pool } = require("pg");
 const pool = new Pool();
 
-/*
-SELECT id, json_agg(toegangen.url) FROM gebruikers
-LEFT JOIN gebruikers_rollen ON (gebruikers.id = gebruikers_rollen.gebruiker)
-INNER JOIN rollen ON (gebruikers_rollen.rol = rollen.naam)
-INNER JOIN toegangen ON (rollen.toegang = toegangen.naam)
-WHERE gebruikers.id = 1
-GROUP BY id
-*/
-
 exports.get = function (req, res, next) {
   // Query die enkel de noodzakelijke informatie van de gebruikers ophaalt, en alle rollen die
   // de gebruiker heeft, aggregeert naar json!
@@ -50,7 +41,7 @@ exports.getBewerken = async function (req, res, next) {
     );
   } catch (err) {
     // ! Somehow log error
-    return next(createError(500, "Interne serverfout."));
+    return next(createError(500, "500: Interne serverfout."));
   }
 
   try {
