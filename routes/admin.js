@@ -11,9 +11,7 @@ var gebruikersController = require("../controllers/admin/gebruikersController");
 var loginController = require("../controllers/loginController");
 
 // router.get("/", navbarController.getNavbar, indexController.get);
-router.get("/", function (req, res, next) {
-  res.redirect("/admin/gebruikers");
-});
+router.get("/", loginController.checkLogin, navbarController.getNavbar, indexController.get);
 
 // * Gebruikers *
 

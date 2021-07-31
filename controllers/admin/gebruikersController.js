@@ -72,6 +72,12 @@ exports.getBewerken = async function (req, res, next) {
   });
 };
 
+/**
+ * POST route voor het bewerken van gebruikers.
+ * @author Ward Vermeulen
+ * @todo Willekeurig wachtwoord genereren.
+ * @todo Profielfoto instellen.
+ */
 exports.postBewerken = async function (req, res, next) {
   if (!req.params.id) {
     return res.send("Er moet een ID opgegeven worden!");
@@ -90,7 +96,7 @@ exports.postBewerken = async function (req, res, next) {
     return res.send("Interne serverfout!");
   }
 
-  if (inTakken.rowCount == 0) {
+  if (inTakken.rowCount == 0 && req.body.tak != null) {
     return res.send("De tak (" + req.body.tak + ") die u heeft opgegeven bestaat niet!");
   }
 

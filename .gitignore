@@ -1,3 +1,5 @@
 node_modules
 public/stylesheets/tailwind-generated.css
-*.env
+.git
+.bin
+.env
