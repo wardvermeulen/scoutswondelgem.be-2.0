@@ -18,7 +18,7 @@ router.get("/", loginController.checkLogin, navbarController.getNavbar, indexCon
 router.get(
   "/gebruikers",
   function (req, res, next) {
-    res.locals.checkRol = "/gebruikers";
+    res.locals.checkRol = "gebruikers";
     return next();
   },
   loginController.checkLogin,
@@ -29,7 +29,7 @@ router.get(
 router.get(
   "/gebruikers/bewerken/:id?",
   function (req, res, next) {
-    res.locals.checkRol = "/gebruikers/bewerken";
+    res.locals.checkRol = "gebruikers_bewerken";
     return next();
   },
   loginController.checkLogin,
@@ -40,7 +40,7 @@ router.get(
 router.post(
   "/gebruikers/bewerken/:id?",
   function (req, res, next) {
-    res.locals.checkRol = "/gebruikers/bewerken";
+    res.locals.checkRol = "gebruikers_bewerken";
     return next();
   },
   loginController.checkLogin,

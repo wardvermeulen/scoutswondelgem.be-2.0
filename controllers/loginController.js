@@ -1,5 +1,4 @@
 var createError = require("http-errors");
-var navbarController = require("../controllers/navbarController");
 
 const { Pool } = require("pg");
 const pool = new Pool();
@@ -31,6 +30,8 @@ exports.checkLogin = async function (req, res, next) {
         return next(createError(403, "403: Verboden toegang!"));
       }
     }
+
+    console.log(req.session.gebruikersInformatie);
 
     return next();
   } else if (req.cookies.aangemeld_blijven) {
@@ -143,7 +144,8 @@ exports.getRollen = async function (req, res, next) {
   let result;
   try {
     result = await pool.query(
-      "SELECT json_agg(toegangen.url) AS rollen FROM gebruikers " +
+      "SELECT json_agg(toegangen.naam) AS rollen, " +
+        "json_agg(json_build_object('menu_naam', toegangen.menu_naam, 'url', toegangen.url)) AS rollen_info FROM gebruikers " +
         "LEFT JOIN gebruikers_rollen ON (gebruikers.id = gebruikers_rollen.gebruiker) " +
         "INNER JOIN rollen ON (gebruikers_rollen.rol = rollen.naam)" +
         "INNER JOIN toegangen ON (rollen.toegang = toegangen.naam)" +
@@ -159,5 +161,6 @@ exports.getRollen = async function (req, res, next) {
 
   if (result.rowCount != 0) {
     req.session.gebruikersInformatie.rollen = result.rows[0].rollen;
+    req.session.gebruikersInformatie.rollenInfo = result.rows[0].rollen_info;
   }
 };

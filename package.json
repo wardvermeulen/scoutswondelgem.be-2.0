@@ -34,8 +34,9 @@
     "nodemon": "^2.0.7"
   },
   "nodemonConfig": {
+    "verbose": true,
     "ignore": [
-      "/public/js/*.js"
+      "public/js/**/*.js"
     ]
   }
 }

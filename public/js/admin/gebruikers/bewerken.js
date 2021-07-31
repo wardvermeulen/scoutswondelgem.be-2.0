@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $("#submit").prop("disabled", true);
     $("#submit").html(
-      'Aanmelden <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
+      'Bewerkingen opslaan <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
     );
 
     $.ajax({
