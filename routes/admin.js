@@ -9,8 +9,10 @@ var navbarController = require("../controllers/navbarController");
 var indexController = require("../controllers/admin/indexController");
 var gebruikersController = require("../controllers/admin/gebruikersController");
 var loginController = require("../controllers/loginController");
+var accountController = require("../controllers/admin/accountController");
 
-// router.get("/", navbarController.getNavbar, indexController.get);
+// * Index *
+
 router.get("/", loginController.checkLogin, navbarController.getNavbar, indexController.get);
 
 // * Gebruikers *
@@ -46,6 +48,19 @@ router.post(
   loginController.checkLogin,
   navbarController.getNavbar,
   gebruikersController.postBewerken
+);
+
+// * Account *
+
+router.get(
+  "/account",
+  function (req, res, next) {
+    res.locals.checkRol = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  accountController.get
 );
 
 module.exports = router;

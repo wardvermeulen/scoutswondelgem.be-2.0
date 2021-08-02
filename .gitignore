@@ -1,4 +1,5 @@
 node_modules
-public/stylesheets/tailwind-generated.css
+.vscode
 .git
+public/stylesheets/tailwind-generated.css
 .env

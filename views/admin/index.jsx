@@ -3,11 +3,13 @@ var Layout = require("./../layout");
 
 function Index(props) {
   const menu = props.rollenInfo.map(function (value, index) {
-    return (
-      <a href={"/admin" + value.url} className="dropdown-item" key={index}>
-        {value.menu_naam}
-      </a>
-    );
+    if (value.menu_naam) {
+      return (
+        <a href={"/admin" + value.url} className="dropdown-item" key={index}>
+          {value.menu_naam}
+        </a>
+      );
+    }
   });
 
   return (
