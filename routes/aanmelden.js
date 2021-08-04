@@ -81,7 +81,7 @@ router.post(
     const tokenHashed = shajs("sha256").update(token).digest("hex");
 
     // Vervaldatum in UNIX tijd. Dit is trouwens goed voor 90 dagen.
-    const expirationDate = new Date(Date.now() + 90 * 24 * 60 * 1000);
+    const expirationDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
 
     // Nu enkel nog de token hashen en de data in de database plaatsen.
     pool.query(

@@ -20,7 +20,7 @@ router.get("/", loginController.checkLogin, navbarController.getNavbar, indexCon
 router.get(
   "/gebruikers",
   function (req, res, next) {
-    res.locals.checkRol = "gebruikers";
+    res.locals.checkToegang = "gebruikers";
     return next();
   },
   loginController.checkLogin,
@@ -31,7 +31,7 @@ router.get(
 router.get(
   "/gebruikers/bewerken/:id?",
   function (req, res, next) {
-    res.locals.checkRol = "gebruikers_bewerken";
+    res.locals.checkToegang = "gebruikers_bewerken";
     return next();
   },
   loginController.checkLogin,
@@ -42,11 +42,10 @@ router.get(
 router.post(
   "/gebruikers/bewerken/:id?",
   function (req, res, next) {
-    res.locals.checkRol = "gebruikers_bewerken";
+    res.locals.checkToegang = "gebruikers_bewerken";
     return next();
   },
   loginController.checkLogin,
-  navbarController.getNavbar,
   gebruikersController.postBewerken
 );
 
@@ -55,12 +54,23 @@ router.post(
 router.get(
   "/account",
   function (req, res, next) {
-    res.locals.checkRol = "account";
+    res.locals.checkToegang = "account";
     return next();
   },
   loginController.checkLogin,
   navbarController.getNavbar,
   accountController.get
+);
+
+router.post(
+  "/account/profielfoto",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  accountController.multer,
+  accountController.postProfielfoto
 );
 
 module.exports = router;

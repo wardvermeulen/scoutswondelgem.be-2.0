@@ -2,7 +2,7 @@ var React = require("react");
 var Layout = require("./../layout");
 
 function Index(props) {
-  const menu = props.rollenInfo.map(function (value, index) {
+  const menu = props.toegangInfo.map(function (value, index) {
     if (value.menu_naam) {
       return (
         <a href={"/admin" + value.url} className="dropdown-item" key={index}>

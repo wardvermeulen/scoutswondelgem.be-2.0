@@ -20,6 +20,7 @@
     "express-session": "^1.17.1",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "multer": "^1.4.2",
     "pg": "^8.5.1",
     "postcss": "^8.3.0",
     "postcss-cli": "^8.3.1",
@@ -28,6 +29,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "sha.js": "^2.4.11",
+    "sharp": "^0.28.3",
     "tailwindcss": "^2.0.3"
   },
   "devDependencies": {
@@ -36,7 +38,8 @@
   "nodemonConfig": {
     "verbose": true,
     "ignore": [
-      "public/js/**/*.js"
+      "public/js/**/*.js",
+      "public/uploads/**/*.*"
     ]
   }
 }

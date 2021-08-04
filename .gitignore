@@ -3,3 +3,4 @@ node_modules
 .git
 public/stylesheets/tailwind-generated.css
 .env
+public/uploads

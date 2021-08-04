@@ -20,13 +20,13 @@ exports.checkLogin = async function (req, res, next) {
       return next(createError(err.code, err.msg));
     }
 
-    // Als er geen checkRol wordt meegegeven vooraleer de checkLogin functie wordt opgeroepen,
+    // Als er geen checkToegang wordt meegegeven vooraleer de checkLogin functie wordt opgeroepen,
     // dan is de pagina beschikbaar voor elke ingelogde gebruiker!
-    if (res.locals.checkRol) {
-      if (!req.session.gebruikersInformatie.rollen) {
+    if (res.locals.checkToegang) {
+      if (!req.session.gebruikersInformatie.toegang) {
         return next(createError(403, "403: Verboden toegang!"));
       }
-      if (!req.session.gebruikersInformatie.rollen.includes(res.locals.checkRol)) {
+      if (!req.session.gebruikersInformatie.toegang.includes(res.locals.checkToegang)) {
         return next(createError(403, "403: Verboden toegang!"));
       }
     }
@@ -127,7 +127,7 @@ exports.getGebruikersInformatie = async function (req, res, next) {
   req.session.gebruikersInformatie = gebruikersInformatie.rows[0];
   delete req.session.gebruikersInformatie.wachtwoord;
 
-  await exports.getRollen(req, res, next);
+  await exports.getToegang(req, res, next);
 };
 
 /**
@@ -138,12 +138,12 @@ exports.getGebruikersInformatie = async function (req, res, next) {
  * @param {*} res
  * @param {*} next
  */
-exports.getRollen = async function (req, res, next) {
+exports.getToegang = async function (req, res, next) {
   let result;
   try {
     result = await pool.query(
-      "SELECT json_agg(DISTINCT toegangen.naam) AS rollen, " +
-        "json_agg(DISTINCT jsonb_build_object('menu_naam', toegangen.menu_naam, 'url', toegangen.url)) AS rollen_info FROM gebruikers " +
+      "SELECT json_agg(DISTINCT toegangen.naam) AS toegang, " +
+        "json_agg(DISTINCT jsonb_build_object('menu_naam', toegangen.menu_naam, 'url', toegangen.url)) AS toegang_info FROM gebruikers " +
         "LEFT JOIN gebruikers_rollen ON (gebruikers.id = gebruikers_rollen.gebruiker) " +
         "INNER JOIN rollen ON (gebruikers_rollen.rol = rollen.naam)" +
         "INNER JOIN toegangen ON (rollen.toegang = toegangen.naam)" +
@@ -158,9 +158,7 @@ exports.getRollen = async function (req, res, next) {
   }
 
   if (result.rowCount != 0) {
-    req.session.gebruikersInformatie.rollen = result.rows[0].rollen;
-    req.session.gebruikersInformatie.rollenInfo = result.rows[0].rollen_info;
+    req.session.gebruikersInformatie.toegang = result.rows[0].toegang;
+    req.session.gebruikersInformatie.toegangInfo = result.rows[0].toegang_info;
   }
-
-  console.log(req.session.gebruikersInformatie);
 };
