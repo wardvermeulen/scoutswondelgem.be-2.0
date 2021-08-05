@@ -63,6 +63,47 @@ router.get(
 );
 
 router.post(
+  "/account/info",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  accountController.postInfo
+);
+
+router.get(
+  "/account/tekstje",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  accountController.getTekstje
+);
+
+router.post(
+  "/account/tekstje",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  accountController.postTekstje
+);
+
+router.post(
+  "/account/wachtwoord",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  accountController.postWachtwoord
+);
+
+router.post(
   "/account/profielfoto",
   function (req, res, next) {
     res.locals.checkToegang = "account";

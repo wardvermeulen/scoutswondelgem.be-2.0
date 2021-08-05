@@ -3,11 +3,11 @@ require("dotenv").config();
 const { Pool } = require("pg");
 const pool = new Pool();
 
+const bcrypt = require("bcrypt");
 const multer = require("multer");
 const upload = multer();
 const fs = require("fs");
 const sharp = require("sharp");
-const randomstring = require("randomstring");
 
 exports.get = function (req, res, next) {
   res.render("admin/account/index", {
@@ -15,6 +15,97 @@ exports.get = function (req, res, next) {
     navbar: req.session.navbarData,
     gebruiker: req.session.gebruikersInformatie,
   });
+};
+
+exports.postInfo = async function (req, res, next) {
+  try {
+    await pool.query("UPDATE gebruikers SET gsm = $1 WHERE id = $2", [
+      req.body.gsm === "" ? null : req.body.gsm,
+      req.session.gebruikersInformatie.id,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+  res.json({ type: "success", msg: "Succesvol opgeslagen!" });
+};
+
+exports.getTekstje = function (req, res, next) {
+  res.json(req.session.gebruikersInformatie.tekstje);
+};
+
+exports.postTekstje = async function (req, res, next) {
+  try {
+    await pool.query("UPDATE gebruikers SET tekstje = $1 WHERE id = $2", [
+      req.body.tekstje,
+      req.session.gebruikersInformatie.id,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+  res.json({ type: "success", msg: "Tekstje succesvol opgeslagen!" });
+};
+
+exports.postWachtwoord = async function (req, res, next) {
+  if (req.body.oud === "") req.body.oud = null;
+  if (req.body.nieuw === "") req.body.nieuw = null;
+  if (req.body.nieuw2 === "") req.body.nieuw2 = null;
+
+  // Controleren op lege velden
+  if (!req.body.oud || !req.body.nieuw || !req.body.nieuw2) {
+    return res.json({ type: "error", msg: "Een van de velden is leeg." });
+  }
+
+  if (req.body.nieuw !== req.body.nieuw2) {
+    return res.json({ type: "error", msg: "De twee nieuwe wachtwoorden komen niet overeen." });
+  }
+
+  if (req.body.nieuw.length < 8) {
+    return res.json({ type: "error", msg: "Uw nieuw wachtwoord moet minstens 8 karakters lang zijn." });
+  }
+
+  let resp;
+  try {
+    resp = await pool.query("SELECT wachtwoord FROM gebruikers WHERE id = $1", [req.session.gebruikersInformatie.id]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+
+  let wachtwoordCorrect;
+  try {
+    wachtwoordCorrect = await bcrypt.compare(req.body.oud, resp.rows[0].wachtwoord);
+    if (!wachtwoordCorrect) {
+      return res.json({ type: "error", msg: "Het oude wachtwoord dat u heeft opgegeven is fout." });
+    }
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets mis bij het vergelijken van de wachtwoorden." });
+  }
+
+  const hashedWachtwoord = await bcrypt.hash(req.body.nieuw, 6);
+
+  try {
+    await pool.query("UPDATE gebruikers SET wachtwoord = $1 WHERE id = $2", [
+      hashedWachtwoord,
+      req.session.gebruikersInformatie.id,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+
+  try {
+    await pool.query("DELETE FROM authentication_tokens WHERE gebruikers_id = $1", [
+      req.session.gebruikersInformatie.id,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+
+  res.json({ type: "success", msg: "Wachtwoord succesvol bijgewerkt!" });
 };
 
 exports.multer = upload.single("profielfoto");
@@ -62,13 +153,13 @@ exports.postProfielfoto = async function (req, res, next) {
   }
 
   try {
-    await pool.query("UPDATE gebruikers SET " + "afbeelding = $1 WHERE id = $2", [
+    await pool.query("UPDATE gebruikers SET afbeelding = $1 WHERE id = $2", [
       path,
       req.session.gebruikersInformatie.id,
     ]);
   } catch (err) {
     // ! Somehow log this
-    res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
   }
 
   res.json({ type: "success", msg: "Profielfoto succesvol geüpload!", src: path });

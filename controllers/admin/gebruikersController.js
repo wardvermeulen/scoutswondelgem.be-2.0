@@ -123,7 +123,6 @@ exports.postBewerken = async function (req, res, next) {
 
   if (hashedWachtwoord) {
     try {
-      // TODO: Alle authentication_tokens verwijderen!
       await pool.query(
         "UPDATE gebruikers SET " +
           "email = $1, " +
@@ -134,6 +133,7 @@ exports.postBewerken = async function (req, res, next) {
           "WHERE id = $6",
         [req.body.email, req.body.naam, hashedWachtwoord, req.body.tak, req.body.gsm, req.params.id]
       );
+      await pool.query("DELETE FROM authentication_tokens WHERE gebruikers_id = $1", [req.params.id]);
     } catch (err) {
       return res.send("Interne serverfout!");
     }

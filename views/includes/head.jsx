@@ -28,6 +28,9 @@ function Head(props) {
         crossOrigin="anonymous"
       ></script>
 
+      <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
+      <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
+
       {/* Laat overal tooltips toe. */}
       <script src="/js/tooltips.js"></script>
 
