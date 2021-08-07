@@ -29,7 +29,7 @@ exports.getNavbar = async function (req, res, next) {
 
 exports.getDropdownItems = async function (req, res, next) {
   // Hier wordt alle data uit de tabellen gehaald waarvoor dropdown = true. Een rij kan dus
-  // enkel true hebben voor dropdown als er een tabel bestaand met dezelfde naam als
+  // enkel true hebben voor dropdown als er een tabel bestaat met dezelfde naam als
   // tabel_en_url_naam! Moest dit toch niet zo zijn, is dit geen probleem en wordt de navbar
   // item gewoon als normale link gerendered, ipv als dropdown.
   await Promise.all(

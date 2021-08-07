@@ -18,6 +18,8 @@ function Index(props) {
               )}
             </p>
 
+            <hr />
+
             <form method="POST" id="info">
               <div className="form-group">
                 <p id="infoInfo"></p>
@@ -38,6 +40,8 @@ function Index(props) {
               </div>
             </form>
 
+            <hr />
+
             <form method="POST" id="tekstje">
               <div className="form-group">
                 <p id="tekstjeInfo"></p>
@@ -50,6 +54,8 @@ function Index(props) {
                 </button>
               </div>
             </form>
+
+            <hr />
 
             <form method="POST" id="wachtwoord">
               <div className="form-group">
@@ -70,6 +76,8 @@ function Index(props) {
                 <input type="submit" value="Opslaan" id="wachtwoordSubmit" />
               </div>
             </form>
+
+            <hr />
 
             <form method="POST" encType="multipart/form-data" id="profielfoto">
               <img

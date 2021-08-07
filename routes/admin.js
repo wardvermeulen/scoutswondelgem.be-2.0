@@ -10,6 +10,7 @@ var indexController = require("../controllers/admin/indexController");
 var gebruikersController = require("../controllers/admin/gebruikersController");
 var loginController = require("../controllers/loginController");
 var accountController = require("../controllers/admin/accountController");
+var takController = require("../controllers/admin/takController");
 
 // * Index *
 
@@ -112,6 +113,18 @@ router.post(
   loginController.checkLogin,
   accountController.multer,
   accountController.postProfielfoto
+);
+
+// * Takken *
+router.get(
+  "/takken",
+  function (req, res, next) {
+    res.locals.checkToegang = "takken";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTakken
 );
 
 module.exports = router;
