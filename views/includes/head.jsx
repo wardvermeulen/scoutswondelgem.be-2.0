@@ -6,7 +6,7 @@ function Head(props) {
       <meta charSet="utf-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
 
-      <script
+      {/* <script
         src="https://code.jquery.com/jquery-3.5.1.min.js"
         integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
         crossOrigin="anonymous"
@@ -26,7 +26,12 @@ function Head(props) {
         src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
         integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
         crossOrigin="anonymous"
-      ></script>
+      ></script> */}
+
+      <script src="/tmp/jquery-3.5.1.min.js"></script>
+      <script src="/tmp/popper.min.js"></script>
+      <link rel="stylesheet" href="/tmp/bootstrap.min.css" />
+      <script src="/tmp/bootstrap.min.js"></script>
 
       <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
       <link href="//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>

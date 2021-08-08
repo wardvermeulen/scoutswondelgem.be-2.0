@@ -20,7 +20,8 @@ $(document).ready(function () {
   $("#tekstje").submit(function (e) {
     e.preventDefault();
 
-    const tekstje = quill.getContents();
+    const tekstjeJson = quill.getContents();
+    const tekstjeHtml = quill.root.innerHTML;
 
     $("#tekstjeInfo").removeClass();
 
@@ -33,7 +34,8 @@ $(document).ready(function () {
       url: "/admin/account/tekstje",
       method: "POST",
       data: {
-        tekstje: JSON.stringify(tekstje),
+        tekstje_json: JSON.stringify(tekstjeJson),
+        tekstje_html: tekstjeHtml,
       },
       success: function (response) {
         if (response.type === "error") {

@@ -30,16 +30,32 @@ exports.postInfo = async function (req, res, next) {
   res.json({ type: "success", msg: "Succesvol opgeslagen!" });
 };
 
-exports.getTekstje = function (req, res, next) {
-  res.json(req.session.gebruikersInformatie.tekstje);
+exports.getTekstje = async function (req, res, next) {
+  let tekstjeJson;
+
+  try {
+    tekstjeJson = await pool.query("SELECT tekstje_json FROM gebruikers_tekstje WHERE id = $1", [
+      req.session.gebruikersInformatie.id,
+    ]);
+  } catch (err) {
+    // ! Somehow log this error
+    return res.json(null);
+  }
+
+  if (tekstjeJson.rowCount !== 0) {
+    res.json(tekstjeJson.rows[0].tekstje_json);
+  } else {
+    res.json(null);
+  }
 };
 
 exports.postTekstje = async function (req, res, next) {
   try {
-    await pool.query("UPDATE gebruikers SET tekstje = $1 WHERE id = $2", [
-      req.body.tekstje,
-      req.session.gebruikersInformatie.id,
-    ]);
+    await pool.query(
+      "INSERT INTO gebruikers_tekstje (id, tekstje_json, tekstje_html) VALUES ($1, $2, $3) " +
+        "ON CONFLICT (id) DO UPDATE SET tekstje_json = $2, tekstje_html = $3",
+      [req.session.gebruikersInformatie.id, req.body.tekstje_json, req.body.tekstje_html]
+    );
   } catch (err) {
     // ! Somehow log this
     return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
