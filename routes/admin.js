@@ -12,11 +12,18 @@ var loginController = require("../controllers/loginController");
 var accountController = require("../controllers/admin/accountController");
 var takController = require("../controllers/admin/takController");
 
-// * Index *
+// ! Dit bestand is gigantisch, niets aan te doen: nutteloos om voor elk pad een aparte router te maken
+// ! aangezien er al voor elk pad een aparte controller is.
+
+/**********************************************************************************************************************
+ * * Index
+ *********************************************************************************************************************/
 
 router.get("/", loginController.checkLogin, navbarController.getNavbar, indexController.get);
 
-// * Gebruikers *
+/**********************************************************************************************************************
+ * * Gebruikers
+ *********************************************************************************************************************/
 
 router.get(
   "/gebruikers",
@@ -50,7 +57,9 @@ router.post(
   gebruikersController.postBewerken
 );
 
-// * Account *
+/**********************************************************************************************************************
+ * * Account
+ *********************************************************************************************************************/
 
 router.get(
   "/account",
@@ -115,7 +124,10 @@ router.post(
   accountController.postProfielfoto
 );
 
-// * Takken *
+/**********************************************************************************************************************
+ * * Takken
+ *********************************************************************************************************************/
+
 router.get(
   "/takken",
   function (req, res, next) {
@@ -125,6 +137,38 @@ router.get(
   loginController.checkLogin,
   navbarController.getNavbar,
   takController.getTakken
+);
+
+router.get(
+  "/tak/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTak
+);
+
+router.get(
+  "/tak/:tak?/tekstje",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTekstje
+);
+
+router.post(
+  "/tak/:tak?/tekstje",
+  function (req, res, next) {
+    res.locals.checkToegang = "account";
+    return next();
+  },
+  loginController.checkLogin,
+  takController.postTekstje
 );
 
 module.exports = router;

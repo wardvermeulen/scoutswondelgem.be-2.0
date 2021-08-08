@@ -13,7 +13,7 @@ function Index(props) {
 
   return (
     <Layout {...props}>
-      <div className="container">
+      <div className="container mt-3">
         <h1>Takken</h1>
         <ol>{takken}</ol>
       </div>
