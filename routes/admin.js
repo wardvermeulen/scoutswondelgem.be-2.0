@@ -140,18 +140,7 @@ router.get(
 );
 
 router.get(
-  "/tak/:tak?",
-  function (req, res, next) {
-    res.locals.checkToegang = "tak";
-    return next();
-  },
-  loginController.checkLogin,
-  navbarController.getNavbar,
-  takController.getTak
-);
-
-router.get(
-  "/tak/:tak?/tekstje",
+  "/tak/tekstje/:tak?",
   function (req, res, next) {
     res.locals.checkToegang = "account";
     return next();
@@ -162,13 +151,24 @@ router.get(
 );
 
 router.post(
-  "/tak/:tak?/tekstje",
+  "/tak/tekstje/:tak?",
   function (req, res, next) {
     res.locals.checkToegang = "account";
     return next();
   },
   loginController.checkLogin,
   takController.postTekstje
+);
+
+router.get(
+  "/tak/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTak
 );
 
 module.exports = router;

@@ -9,14 +9,19 @@ var quill = new Quill("#tekstjeEditor", {
 });
 
 $(document).ready(function () {
+  var pathElements = window.location.pathname.split("/").filter(function (value) {
+    return value !== "";
+  });
+  pathElements.splice(pathElements.length - (pathElements.length === 2 ? 0 : 1), 0, "tekstje");
+  const url = "/" + pathElements.join("/");
+
   $.ajax({
-    url: window.location.pathname + "/tekstje",
+    url: url,
     method: "GET",
     success: function (response) {
       quill.setContents(response);
     },
   });
-  console.log(window.location);
 
   $("#tekstje").submit(function (e) {
     e.preventDefault();
@@ -32,7 +37,7 @@ $(document).ready(function () {
     );
 
     $.ajax({
-      url: window.location.pathname + "/tekstje",
+      url: url,
       method: "POST",
       data: {
         tekstje_json: JSON.stringify(tekstjeJson),

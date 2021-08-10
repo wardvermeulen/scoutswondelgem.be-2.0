@@ -17,10 +17,8 @@ exports.getTakken = async function (req, res, next) {
 exports.controleerToegang = function (req, res, next) {
   let tak;
 
-  // TODO: fucky wucky
-
   // De admin kan aan elke tak door bijvoorbeeld /tak/Kapoenen.
-  if (req.params.tak !== req.session.gebruikersInformatie.tak) {
+  if (req.params.tak) {
     if (!req.session.gebruikersInformatie.toegang.includes("takken")) {
       delete req.params.tak;
       throw "error";
