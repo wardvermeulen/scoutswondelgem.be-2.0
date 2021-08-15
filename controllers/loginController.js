@@ -6,10 +6,6 @@ const shajs = require("sha.js");
 
 /**
  * Contoleert de login van de gebruiker.
- * @author Ward Vermeulen
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
 exports.checkLogin = async function (req, res, next) {
   if (req.session.ingelogd === true) {
@@ -53,10 +49,6 @@ exports.checkLogin = async function (req, res, next) {
 /**
  * Controleert op de geldigheid van de cookie. Indien de cookie geldig is, wordt de gebruiker
  * ingelogd. Bekijk hiervoor zeker de documentatie.
- * @author Ward Vermeulen
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
 exports.checkCookie = async function (req, res, next) {
   let resp;
@@ -105,10 +97,6 @@ exports.checkCookie = async function (req, res, next) {
  * Aparte functie die de gebruikersinformatie afhaalt van de database en opslaat in de session
  * variabele "gebruikersInformatie". Deze functie wordt elke keer opgeroepen als checkLogin
  * wordt opgeroepen, zodat er niet hoeft gecontroleerd te worden op eventuele aanpassingen.
- * @author Ward Vermeulen
- * @param {*} req
- * @param {*} res
- * @param {*} next
  */
 exports.getGebruikersInformatie = async function (req, res, next) {
   let gebruikersInformatie;
@@ -131,12 +119,8 @@ exports.getGebruikersInformatie = async function (req, res, next) {
 };
 
 /**
- * Deze query staat apart omdat ze redelijk complex is en makkelijk kan aangepast worden, indien
- * dit nodig zou zijn.
- * @author Ward Vermeulen
- * @param {*} req
- * @param {*} res
- * @param {*} next
+ * Deze query staat apart omdat ze redelijk complex is en makkelijk zou kunnen worden aangepast
+ * worden, indien dit nodig zou zijn.
  */
 exports.getToegang = async function (req, res, next) {
   let result;

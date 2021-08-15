@@ -120,7 +120,7 @@ router.post(
     return next();
   },
   loginController.checkLogin,
-  accountController.multer,
+  accountController.multerProfielfoto,
   accountController.postProfielfoto
 );
 
@@ -137,6 +137,17 @@ router.get(
   loginController.checkLogin,
   navbarController.getNavbar,
   takController.getTakken
+);
+
+router.get(
+  "/tak/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTak
 );
 
 router.get(
@@ -160,15 +171,15 @@ router.post(
   takController.postTekstje
 );
 
-router.get(
-  "/tak/:tak?",
+router.post(
+  "/tak/maandbrief/:tak?",
   function (req, res, next) {
     res.locals.checkToegang = "tak";
     return next();
   },
   loginController.checkLogin,
-  navbarController.getNavbar,
-  takController.getTak
+  takController.multerMaandbrief,
+  takController.postMaandbrief
 );
 
 module.exports = router;

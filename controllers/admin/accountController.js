@@ -124,7 +124,7 @@ exports.postWachtwoord = async function (req, res, next) {
   res.json({ type: "success", msg: "Wachtwoord succesvol bijgewerkt!" });
 };
 
-exports.multer = upload.single("profielfoto");
+exports.multerProfielfoto = upload.single("profielfoto");
 
 exports.postProfielfoto = async function (req, res, next) {
   // Kijken of de folder /public/uploads bestaat, en indien dat niet het geval is, de folder aanmaken.

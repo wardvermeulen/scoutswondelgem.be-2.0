@@ -24,7 +24,7 @@ function Index(props) {
 
         <hr />
 
-        <form method="POST" encType="multipart/form-data" id="maanbrief">
+        <form method="POST" encType="multipart/form-data" id="maandbrief">
           <p id="maandbriefInfo"></p>
           <p>
             Hier kan je de maandbrieven uploaden (meerdere tegelijkertijd mogelijk). In de tabel kan je daarna aanduiden
@@ -46,6 +46,7 @@ function Index(props) {
       </div>
 
       <script src="/js/admin/tak/tekstje.js"></script>
+      <script src="/js/admin/tak/maandbrief.js"></script>
     </Layout>
   );
 }
