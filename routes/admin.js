@@ -140,17 +140,6 @@ router.get(
 );
 
 router.get(
-  "/tak/:tak?",
-  function (req, res, next) {
-    res.locals.checkToegang = "tak";
-    return next();
-  },
-  loginController.checkLogin,
-  navbarController.getNavbar,
-  takController.getTak
-);
-
-router.get(
   "/tak/tekstje/:tak?",
   function (req, res, next) {
     res.locals.checkToegang = "account";
@@ -159,6 +148,19 @@ router.get(
   loginController.checkLogin,
   navbarController.getNavbar,
   takController.getTekstje
+);
+
+// ! Volgorde belangrijk! Als je deze controller voor die van /tak/tekstje/:tak? zet dan zal de router denken
+// ! Dat als er gebrowset wordt naar /tak/tekstje, er met "tekstje" een tak bedoeld wordt. Laat dit dus zo staan.
+router.get(
+  "/tak/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  takController.getTak
 );
 
 router.post(

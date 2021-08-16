@@ -53,7 +53,7 @@ exports.getTak = async function (req, res, next) {
 
   try {
     maandbrieven = await pool.query(
-      "SELECT * FROM takken_maandbrieven WHERE url_tak_naam = $1 ORDER BY upload_datum DESC",
+      "SELECT * FROM takken_maandbrieven WHERE url_tak_naam = $1 ORDER BY upload_datum DESC, bestandsnaam ASC",
       [tak]
     );
   } catch (err) {
