@@ -49,7 +49,24 @@ exports.getTak = async function (req, res, next) {
     return next(createError(500, "400: Die tak bestaat niet."));
   }
 
-  res.render("admin/tak/tak", { title: tak, navbar: req.session.navbarData, tak: takInformatie.rows[0] });
+  let maandbrieven;
+
+  try {
+    maandbrieven = await pool.query(
+      "SELECT * FROM takken_maandbrieven WHERE url_tak_naam = $1 ORDER BY upload_datum DESC",
+      [tak]
+    );
+  } catch (err) {
+    // ! Somehow log this
+    return next(createError(500, "500: Interne serverfout."));
+  }
+
+  res.render("admin/tak/tak", {
+    title: tak,
+    navbar: req.session.navbarData,
+    tak: takInformatie.rows[0],
+    maandbrieven: maandbrieven.rows,
+  });
 };
 
 /**
@@ -210,7 +227,8 @@ exports.postMaandbrief = async function (req, res, next) {
     try {
       await pool.query(
         "INSERT INTO takken_maandbrieven (url_tak_naam, bestandsnaam, pad, upload_datum) VALUES ($1, $2, $3, $4)",
-        [tak, originalname, path, new Date(Date.now()).toLocaleDateString("nl-BE")]
+        // ? Locale en-GB is bijvoorbeeld dit: 16/08/2021, 21:30:13.
+        [tak, originalname, path, new Date(Date.now()).toLocaleString("en-GB")]
       );
     } catch (err) {
       // ! Somehow log this
@@ -219,8 +237,81 @@ exports.postMaandbrief = async function (req, res, next) {
   });
 
   if (msg === "") {
-    res.json({ type: "success", msg: "Bestand(en) succesvol opgeslagen!" });
+    res.json({ type: "success", msg: "Bestand(en) succesvol opgeslagen!", reload: true });
   } else {
     res.json({ type: "error", msg: msg });
   }
+};
+
+/**
+ * Functie om te togglen of een maandbrief moet worden weergegeven of niet.
+ */
+exports.putMaandbrief = function (req, res, next) {
+  let tak;
+
+  console.log(new Date(Date.now()).toLocaleString("en-GB"));
+
+  try {
+    exports.controleerToegang(req, res, next);
+    tak = res.locals.tak;
+  } catch (err) {
+    // Technisch gezien zou dit betekenen dat de toegang niet mogelijk is, maar dit zou eigenlijk
+    // enkel gebruikt worden als iemand echt PUT naar bv. /tak/maandbrief/(tak)
+    return res.json({ type: "error", msg: "U bent niet gemachtigd om te putten voor deze tak." });
+  }
+
+  // Fancy UPDATE statement dat gewoon de boolean flipt :).
+  try {
+    pool.query(
+      "UPDATE takken_maandbrieven SET weergeven = NOT weergeven WHERE url_tak_naam = $1 AND bestandsnaam = $2",
+      [tak, req.body.naam]
+    );
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets mis bij het aanpassen van de database." });
+  }
+
+  res.json({ type: "success", msg: "Weergeefstatus succesvol aangepast." });
+};
+
+/**
+ * Functie om een maandbrief te verwijderen.
+ */
+exports.deleteMaandbrief = async function (req, res, next) {
+  let tak;
+
+  try {
+    exports.controleerToegang(req, res, next);
+    tak = res.locals.tak;
+  } catch (err) {
+    // Technisch gezien zou dit betekenen dat de toegang niet mogelijk is, maar dit zou eigenlijk
+    // enkel gebruikt worden als iemand echt PUT naar bv. /tak/maandbrief/(tak)
+    return res.json({ type: "error", msg: "U bent niet gemachtigd om te deleten voor deze tak." });
+  }
+
+  let pad;
+
+  try {
+    pad = await pool.query("SELECT pad FROM takken_maandbrieven WHERE url_tak_naam = $1 AND bestandsnaam = $2", [
+      tak,
+      req.body.naam,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets mis bij het lezen van de database." });
+  }
+
+  fs.unlinkSync("public" + pad.rows[0].pad);
+
+  try {
+    await pool.query("DELETE FROM takken_maandbrieven WHERE url_tak_naam = $1 AND bestandsnaam = $2", [
+      tak,
+      req.body.naam,
+    ]);
+  } catch (err) {
+    // ! Somehow log this
+    return res.json({ type: "error", msg: "Er ging iets mis bij het aanpassen van de database." });
+  }
+
+  res.json({ type: "success", msg: "Bestand succesvol verwijderd." });
 };

@@ -21,20 +21,51 @@ $(document).ready(function () {
       data: new FormData(this),
       processData: false,
       contentType: false,
-      success: function (response) {
-        if (response.type === "error") {
-          $("#maandbriefInfo").addClass("alert alert-danger");
-        } else if (response.type === "success") {
-          $("#maandbriefInfo").addClass("alert alert-success");
-          $("#maandbriefImg").attr("src", response.src);
-          $("#maandbriefImg").attr("hidden", false);
-        }
-
-        $("#maandbriefInfo").html(response.msg);
-
-        $("#maandbriefSubmit").prop("disabled", false);
-        $("#maandbriefSubmit").html("Uploaden");
-      },
+      success: successFunction,
     });
   });
+
+  $(".weergeven").click(function (e) {
+    const naam = this.name;
+    $.ajax({
+      url: url,
+      type: "PUT",
+      data: {
+        naam: naam,
+      },
+      success: successFunction,
+    });
+  });
+
+  $(".verwijderen").click(function (e) {
+    const naam = this.name;
+    $.ajax({
+      url: url,
+      type: "DELETE",
+      data: {
+        naam: naam,
+      },
+      success: successFunction,
+    });
+
+    // Verwijder de rij uit de tabel.
+    $(this).parent().parent().remove();
+  });
 });
+
+function successFunction(response) {
+  if (response.reload) {
+    window.location.reload();
+  }
+
+  if (response.type === "error") {
+    $("#maandbriefInfo").addClass("alert alert-danger mt-3");
+  } else if (response.type === "success") {
+    $("#maandbriefInfo").addClass("alert alert-success mt-3");
+  }
+
+  $("#maandbriefInfo").html(response.msg);
+
+  $("#maandbriefSubmit").prop("disabled", false);
+  $("#maandbriefSubmit").html("Uploaden");
+}

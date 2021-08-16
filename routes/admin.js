@@ -182,4 +182,26 @@ router.post(
   takController.postMaandbrief
 );
 
+router.put(
+  "/tak/maandbrief/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  takController.multerMaandbrief,
+  takController.putMaandbrief
+);
+
+router.delete(
+  "/tak/maandbrief/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  takController.multerMaandbrief,
+  takController.deleteMaandbrief
+);
+
 module.exports = router;

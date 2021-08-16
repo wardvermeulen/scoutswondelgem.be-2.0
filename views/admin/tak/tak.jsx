@@ -3,6 +3,32 @@ var React = require("react");
 var Layout = require("./../../layout");
 
 function Index(props) {
+  const maandbrieven = props.maandbrieven.map(function (maandbrief, index) {
+    return (
+      <tr key={index} id={maandbrief.bestandsnaam}>
+        <td className="text-center">
+          <input
+            type="checkbox"
+            className="weergeven"
+            name={maandbrief.bestandsnaam}
+            defaultChecked={maandbrief.weergeven ? true : false}
+          />
+        </td>
+        <th>
+          <a href={maandbrief.pad} target="_blank">
+            {maandbrief.bestandsnaam}
+          </a>
+        </th>
+        <td>{maandbrief.upload_datum}</td>
+        <td className="text-right">
+          <button className="verwijderen btn btn-danger btn-sm" name={maandbrief.bestandsnaam}>
+            Verwijderen
+          </button>
+        </td>
+      </tr>
+    );
+  });
+
   return (
     <Layout {...props}>
       <div className="container mt-3">
@@ -25,13 +51,11 @@ function Index(props) {
         <hr />
 
         <form method="POST" encType="multipart/form-data" id="maandbrief">
-          <p id="maandbriefInfo"></p>
           <p>
             Hier kan je de maandbrieven uploaden (meerdere tegelijkertijd mogelijk). In de tabel kan je daarna aanduiden
             of je de brieven wilt tonen voor de bezoekers of niet, zo hoef je de maandbrieven niet altijd te
             verwijderen.
           </p>
-
           <p className="text-danger">
             Heel belangrijk: het is absoluut verboden om copyrighted materiaal in je maandbrieven te verwerken. Er zijn
             bedrijven die zich specialiseren in het zoeken van bestanden die afbeeldingen bevatten die copyrighted zijn.
@@ -42,6 +66,7 @@ function Index(props) {
             Uploaden
           </button>
           <input type="file" name="maandbrief" multiple />
+          <p id="maandbriefInfo" className="mt-3"></p>
         </form>
 
         <div className="table-responsive mt-3">
@@ -49,13 +74,14 @@ function Index(props) {
             <thead className="thead-dark">
               <tr>
                 <th scope="col" className="text-center">
-                  Tonen
+                  Weergeven
                 </th>
                 <th scope="col">Bestandsnaam</th>
                 <th scope="col">Uploaddatum</th>
                 <th scope="col"></th>
               </tr>
             </thead>
+            <tbody>{maandbrieven}</tbody>
           </table>
         </div>
       </div>
