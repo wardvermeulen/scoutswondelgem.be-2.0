@@ -37,7 +37,7 @@ function Index(props) {
         <form method="POST" id="tekstje">
           <div className="form-group">
             <p id="tekstjeInfo"></p>
-            <label htmlFor="tekstjeEditor" className="ml-3">
+            <label htmlFor="tekstjeEditor">
               Dit is het tekstje van de tak dat bezoekers kunnen zien als ze naar de pagina van de tak gaan. Wees niet
               bang om dit ooit eens aan te passen, te personaliseren, etc.
             </label>
@@ -84,10 +84,26 @@ function Index(props) {
             <tbody>{maandbrieven}</tbody>
           </table>
         </div>
+
+        <hr />
+
+        <form method="POST" id="email">
+          <div className="form-group">
+            <p id="emailInfo"></p>
+            <label htmlFor="emailInput" className="ml-3">
+              E-mailadres van de tak
+            </label>
+            <input type="text" id="emailInput" name="email" className="form-control" defaultValue={props.tak.email} />
+            <button type="submit" id="emailSubmit">
+              Opslaan
+            </button>
+          </div>
+        </form>
       </div>
 
       <script src="/js/admin/tak/tekstje.js"></script>
       <script src="/js/admin/tak/maandbrief.js"></script>
+      <script src="/js/admin/tak/email.js"></script>
     </Layout>
   );
 }

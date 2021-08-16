@@ -45,7 +45,7 @@ $(document).ready(function () {
       },
       success: function (response) {
         if (response.type === "error") {
-          $("#profielfotoInfo").addClass("alert alert-danger");
+          $("#tekstjeInfo").addClass("alert alert-danger");
         } else if (response.type === "success") {
           $("#tekstjeInfo").addClass("alert alert-success");
         }

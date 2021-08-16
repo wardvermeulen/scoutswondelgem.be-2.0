@@ -206,4 +206,15 @@ router.delete(
   takController.deleteMaandbrief
 );
 
+router.post(
+  "/tak/email/:tak?",
+  function (req, res, next) {
+    res.locals.checkToegang = "tak";
+    return next();
+  },
+  loginController.checkLogin,
+  takController.multerMaandbrief,
+  takController.postEmail
+);
+
 module.exports = router;

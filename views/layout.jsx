@@ -11,7 +11,7 @@ function Layout(props) {
       <body>
         <Navbar navbar={props.navbar}></Navbar>
         {props.children}
-        <Footer></Footer>
+        {/* <Footer></Footer> */}
       </body>
     </html>
   );

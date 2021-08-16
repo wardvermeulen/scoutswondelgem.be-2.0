@@ -232,7 +232,7 @@ exports.postMaandbrief = async function (req, res, next) {
       );
     } catch (err) {
       // ! Somehow log this
-      msg += "Er ging iets fout bij het toevoegen van " + originalname + " aan de database. </br>";
+      msg += "Er ging iets fout bij het toevoegen van " + originalname + " aan de database. <br />";
     }
   });
 
@@ -314,4 +314,29 @@ exports.deleteMaandbrief = async function (req, res, next) {
   }
 
   res.json({ type: "success", msg: "Bestand succesvol verwijderd." });
+};
+
+exports.postEmail = async function (req, res, next) {
+  let tak;
+
+  try {
+    exports.controleerToegang(req, res, next);
+    tak = res.locals.tak;
+  } catch (err) {
+    // Technisch gezien zou dit betekenen dat de toegang niet mogelijk is, maar dit zou eigenlijk
+    // enkel gebruikt worden als iemand echt POST naar bv. /tak/maandbrief/(tak)
+    return res.json({ type: "error", msg: "U bent niet gemachtigd om te posten voor deze tak." });
+  }
+
+  console.log(req.body.email);
+
+  try {
+    await pool.query("UPDATE takken SET email = $1 WHERE url_naam = $2", [req.body.email, tak]);
+  } catch (err) {
+    // ! Somehow log this
+    console.log(err);
+    return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
+  }
+
+  res.json({ type: "success", msg: "E-mailadres succesvol aangepast." });
 };
