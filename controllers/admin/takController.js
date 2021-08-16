@@ -184,30 +184,43 @@ exports.postMaandbrief = async function (req, res, next) {
   if (req.files.length === 0) {
     return res.json({ type: "error", msg: "U moet een bestand selecteren!" });
   }
-  // // De buffer van het bestand en de naam opslaan. Multer heeft ervoor gezorgd dat die informatie in req.file zit.
-  // const { buffer, originalName } = req.file;
-  // const path = "/uploads/profielfoto/" + req.session.gebruikersInformatie.naam.replace(/\s+/g, "") + ".jpg";
 
-  // try {
-  //   await sharp(buffer)
-  //     .jpeg({ quality: 80 })
-  //     .toFile("public" + path);
-  // } catch (err) {
-  //   return res.json({
-  //     type: "error",
-  //     msg: "Het bestand dat u heeft opgegeven kan niet worden geconverteerd naar JPEG!",
-  //   });
-  // }
+  let msg = "";
 
-  // try {
-  //   await pool.query("UPDATE gebruikers SET afbeelding = $1 WHERE id = $2", [
-  //     path,
-  //     req.session.gebruikersInformatie.id,
-  //   ]);
-  // } catch (err) {
-  //   // ! Somehow log this
-  //   return res.json({ type: "error", msg: "Er ging iets fout bij het aanpassen van de database." });
-  // }
+  // Elk bestand opslaan op de juiste plaats.
+  req.files.forEach(async function (file) {
+    // De buffer van het bestand en de naam opslaan. Multer heeft ervoor gezorgd dat die informatie in req.files zit.
+    const { buffer, originalname } = file;
+    const path = "/uploads/maandbrieven/" + tak + "/" + encodeURIComponent(originalname);
 
-  res.json({ type: "success", msg: "Bestand(en) succesvol opgeslagen!" });
+    // Flag "wx" overschrijft het bestand NIET als het bestand met die naam al bestaat! In plaats daarvan zal
+    // dit toegevoegd worden aan de response message, zodat de gebruiker weet dat de bestandsnaam moet worden aangepast
+    // of het oude bestand eerst moet worden verwijderd.
+    try {
+      fs.writeFileSync("public" + path, buffer, { flag: "wx" });
+    } catch (err) {
+      // ! Somehow log this
+      msg +=
+        "Het bestand " +
+        originalname +
+        " bestaat al. Wijzig eerst de naam van het bestand of verwijder het oude bestand. </br>";
+      return;
+    }
+
+    try {
+      await pool.query(
+        "INSERT INTO takken_maandbrieven (url_tak_naam, bestandsnaam, pad, upload_datum) VALUES ($1, $2, $3, $4)",
+        [tak, originalname, path, new Date(Date.now()).toLocaleDateString("nl-BE")]
+      );
+    } catch (err) {
+      // ! Somehow log this
+      msg += "Er ging iets fout bij het toevoegen van " + originalname + " aan de database. </br>";
+    }
+  });
+
+  if (msg === "") {
+    res.json({ type: "success", msg: "Bestand(en) succesvol opgeslagen!" });
+  } else {
+    res.json({ type: "error", msg: msg });
+  }
 };

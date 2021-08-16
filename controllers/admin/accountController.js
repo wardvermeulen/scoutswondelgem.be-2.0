@@ -154,7 +154,7 @@ exports.postProfielfoto = async function (req, res, next) {
     return res.json({ type: "error", msg: "U moet een bestand selecteren!" });
   }
   // De buffer van het bestand en de naam opslaan. Multer heeft ervoor gezorgd dat die informatie in req.file zit.
-  const { buffer, originalName } = req.file;
+  const { buffer, originalname } = req.file;
   const path = "/uploads/profielfoto/" + req.session.gebruikersInformatie.naam.replace(/\s+/g, "") + ".jpg";
 
   try {

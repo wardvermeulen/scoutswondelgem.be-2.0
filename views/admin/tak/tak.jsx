@@ -35,7 +35,7 @@ function Index(props) {
           <p className="text-danger">
             Heel belangrijk: het is absoluut verboden om copyrighted materiaal in je maandbrieven te verwerken. Er zijn
             bedrijven die zich specialiseren in het zoeken van bestanden die afbeeldingen bevatten die copyrighted zijn.
-            De boetes kunnen oplopen tot €10.000. Gebruik dus altijd sites waarvan je zeker best dat je het materiaal
+            De boetes kunnen oplopen tot €10.000. Gebruik dus altijd sites waarvan je zeker bent dat je het materiaal
             mag gebruiken.
           </p>
           <button type="submit" className="btn btn-info mr-3" id="maandbriefSubmit">
@@ -43,6 +43,21 @@ function Index(props) {
           </button>
           <input type="file" name="maandbrief" multiple />
         </form>
+
+        <div className="table-responsive mt-3">
+          <table className="table table-striped table-hover">
+            <thead className="thead-dark">
+              <tr>
+                <th scope="col" className="text-center">
+                  Tonen
+                </th>
+                <th scope="col">Bestandsnaam</th>
+                <th scope="col">Uploaddatum</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+          </table>
+        </div>
       </div>
 
       <script src="/js/admin/tak/tekstje.js"></script>
