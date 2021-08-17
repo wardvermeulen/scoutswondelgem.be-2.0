@@ -127,24 +127,11 @@ exports.postWachtwoord = async function (req, res, next) {
 exports.multerProfielfoto = upload.single("profielfoto");
 
 exports.postProfielfoto = async function (req, res, next) {
-  // Kijken of de folder /public/uploads bestaat, en indien dat niet het geval is, de folder aanmaken.
-  if (!fs.existsSync("public/uploads")) {
-    try {
-      fs.mkdirSync("public/uploads");
-    } catch (err) {
-      // ! Somehow log this
-      console.error(err);
-      return res.json({ type: "error", msg: "Er ging iets mis bij het aanmaken van een folder." });
-    }
-  }
-
-  // Kijken of de folder /public/uploads/profielfoto bestaat, en indien dat niet het geval is, de folder aanmaken.
   if (!fs.existsSync("public/uploads/profielfoto")) {
     try {
-      fs.mkdirSync("public/uploads/profielfoto");
+      fs.mkdirSync("public/uploads/profielfoto", { recursive: true });
     } catch (err) {
       // ! Somehow log this
-      console.error(err);
       return res.json({ type: "error", msg: "Er ging iets mis bij het aanmaken van een folder." });
     }
   }

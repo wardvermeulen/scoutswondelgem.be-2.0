@@ -11,6 +11,7 @@ var gebruikersController = require("../controllers/admin/gebruikersController");
 var loginController = require("../controllers/loginController");
 var accountController = require("../controllers/admin/accountController");
 var takController = require("../controllers/admin/takController");
+var fotoController = require("../controllers/admin/fotoController");
 
 // ! Dit bestand is gigantisch, niets aan te doen: nutteloos om voor elk pad een aparte router te maken
 // ! aangezien er al voor elk pad een aparte controller is.
@@ -215,6 +216,43 @@ router.post(
   loginController.checkLogin,
   takController.multerMaandbrief,
   takController.postEmail
+);
+
+/**********************************************************************************************************************
+ * * Foto's
+ *********************************************************************************************************************/
+
+router.get(
+  "/fotos",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.get
+);
+
+router.get(
+  "/fotos/album_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.getAlbumToevoegen
+);
+
+router.post(
+  "/fotos/album_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  fotoController.multerAlbumToevoegen,
+  fotoController.postAlbumToevoegen
 );
 
 module.exports = router;

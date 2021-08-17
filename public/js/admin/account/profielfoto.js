@@ -20,7 +20,9 @@ $(document).ready(function () {
           $("#profielfotoInfo").addClass("alert alert-danger");
         } else if (response.type === "success") {
           $("#profielfotoInfo").addClass("alert alert-success");
-          $("#profielfotoImg").attr("src", response.src);
+          // Het toevoegen van de datum forceert de browser om de afbeelding te herladen.
+          // Zie: https://stackoverflow.com/questions/2104949/how-to-reload-refresh-an-elementimage-in-jquery
+          $("#profielfotoImg").attr("src", response.src + "?" + new Date().getTime());
           $("#profielfotoImg").attr("hidden", false);
         }
 

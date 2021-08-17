@@ -164,32 +164,10 @@ exports.postMaandbrief = async function (req, res, next) {
     return res.json({ type: "error", msg: "U bent niet gemachtigd om te posten voor deze tak." });
   }
 
-  // Kijken of de folder /public/uploads bestaat, en indien dat niet het geval is, de folder aanmaken.
-  if (!fs.existsSync("public/uploads")) {
-    try {
-      fs.mkdirSync("public/uploads");
-    } catch (err) {
-      // ! Somehow log this
-      console.error(err);
-      return res.json({ type: "error", msg: "Er ging iets mis bij het aanmaken van een folder." });
-    }
-  }
-
-  // Kijken of de folder /public/uploads/maandbrieven bestaat, en indien dat niet het geval is, de folder aanmaken.
-  if (!fs.existsSync("public/uploads/maandbrieven")) {
-    try {
-      fs.mkdirSync("public/uploads/maandbrieven");
-    } catch (err) {
-      // ! Somehow log this
-      console.error(err);
-      return res.json({ type: "error", msg: "Er ging iets mis bij het aanmaken van een folder." });
-    }
-  }
-
   // Kijken of de folder /public/uploads/maandbrieven/<tak> bestaat, en indien dat niet het geval is, de folder aanmaken.
   if (!fs.existsSync("public/uploads/maandbrieven/" + tak)) {
     try {
-      fs.mkdirSync("public/uploads/maandbrieven/" + tak);
+      fs.mkdirSync("public/uploads/maandbrieven/" + tak, { recursive: true });
     } catch (err) {
       // ! Somehow log this
       console.error(err);
