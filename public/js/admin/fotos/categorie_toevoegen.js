@@ -1,32 +1,31 @@
 $(document).ready(function () {
-  $("#album").submit(function (e) {
+  $("#categorie").submit(function (e) {
     e.preventDefault();
 
-    $("#albumInfo").removeClass();
+    $("#categorieInfo").removeClass();
 
-    $("#albumSubmit").prop("disabled", true);
-    $("#albumSubmit").html(
+    $("#categorieSubmit").prop("disabled", true);
+    $("#categorieSubmit").html(
       'Categorie aanmaken <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
     );
 
     $.ajax({
-      url: "/admin/fotos/album_toevoegen",
+      url: "/admin/fotos/categorie_toevoegen",
       type: "POST",
       data: new FormData(this),
       processData: false,
       contentType: false,
       success: function (response) {
         if (response.type === "error") {
-          $("#albumInfo").addClass("alert alert-danger");
+          $("#categorieInfo").addClass("alert alert-danger");
         } else if (response.type === "success") {
-          // TODO: verander url
           window.location = "/admin/fotos";
         }
 
-        $("#albumInfo").html(response.msg);
+        $("#categorieInfo").html(response.msg);
 
-        $("#albumSubmit").prop("disabled", false);
-        $("#albumSubmit").html("Categorie aanmaken");
+        $("#categorieSubmit").prop("disabled", false);
+        $("#categorieSubmit").html("Categorie aanmaken");
       },
     });
   });

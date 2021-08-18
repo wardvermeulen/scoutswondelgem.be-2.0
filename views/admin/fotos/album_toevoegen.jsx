@@ -1,5 +1,5 @@
 var React = require("react");
-var Layout = require("./../../layout");
+var Layout = require("../../layout");
 
 function AlbumToevoegen(props) {
   return (

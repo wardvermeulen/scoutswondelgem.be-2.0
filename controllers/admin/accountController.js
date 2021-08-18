@@ -146,6 +146,7 @@ exports.postProfielfoto = async function (req, res, next) {
 
   try {
     await sharp(buffer)
+      .flatten({ background: { r: 255, g: 255, b: 255 } })
       .jpeg({ quality: 80 })
       .toFile("public" + path);
   } catch (err) {

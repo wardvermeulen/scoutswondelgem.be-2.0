@@ -54,6 +54,8 @@ app.use(async function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
+  console.log(req.app.get("env"));
+
   await navbarController.getNavbar(req, res, next);
 
   res.status(err.status || 500);

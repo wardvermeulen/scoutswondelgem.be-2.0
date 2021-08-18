@@ -1,10 +1,6 @@
 var express = require("express");
 var router = express.Router();
 
-const { Pool } = require("pg");
-const pool = new Pool();
-const bcrypt = require("bcrypt");
-
 var navbarController = require("../controllers/navbarController");
 var indexController = require("../controllers/admin/indexController");
 var gebruikersController = require("../controllers/admin/gebruikersController");
@@ -15,6 +11,7 @@ var fotoController = require("../controllers/admin/fotoController");
 
 // ! Dit bestand is gigantisch, niets aan te doen: nutteloos om voor elk pad een aparte router te maken
 // ! aangezien er al voor elk pad een aparte controller is.
+// ? Misschien is dit toch iets om te overwegen, persoonlijk wel niet echt een fan van.
 
 /**********************************************************************************************************************
  * * Index
@@ -234,7 +231,40 @@ router.get(
 );
 
 router.get(
-  "/fotos/album_toevoegen",
+  "/fotos/categorie_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.getCategorieToevoegen
+);
+
+router.post(
+  "/fotos/categorie_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  fotoController.multerCategorieToevoegen,
+  fotoController.postCategorieToevoegen
+);
+
+router.get(
+  "/fotos/:categorie",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.getCategorie
+);
+
+router.get(
+  "/fotos/:categorie/album_toevoegen",
   function (req, res, next) {
     res.locals.checkToegang = "fotos";
     return next();
@@ -242,17 +272,6 @@ router.get(
   loginController.checkLogin,
   navbarController.getNavbar,
   fotoController.getAlbumToevoegen
-);
-
-router.post(
-  "/fotos/album_toevoegen",
-  function (req, res, next) {
-    res.locals.checkToegang = "fotos";
-    return next();
-  },
-  loginController.checkLogin,
-  fotoController.multerAlbumToevoegen,
-  fotoController.postAlbumToevoegen
 );
 
 module.exports = router;
