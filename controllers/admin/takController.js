@@ -186,7 +186,7 @@ exports.postMaandbrief = async function (req, res, next) {
   req.files.forEach(async function (file) {
     // De buffer van het bestand en de naam opslaan. Multer heeft ervoor gezorgd dat die informatie in req.files zit.
     const { buffer, originalname } = file;
-    const path = "/uploads/maandbrieven/" + tak + "/" + encodeURIComponent(originalname);
+    const path = "/uploads/maandbrieven/" + tak + "/" + originalname;
 
     // Flag "wx" overschrijft het bestand NIET als het bestand met die naam al bestaat! In plaats daarvan zal
     // dit toegevoegd worden aan de response message, zodat de gebruiker weet dat de bestandsnaam moet worden aangepast

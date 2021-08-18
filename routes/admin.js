@@ -274,4 +274,48 @@ router.get(
   fotoController.getAlbumToevoegen
 );
 
+router.post(
+  "/fotos/:categorie/album_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  fotoController.multerAlbumToevoegen,
+  fotoController.postAlbumToevoegen
+);
+
+router.get(
+  "/fotos/:categorie/:album",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.getAlbum
+);
+
+router.get(
+  "/fotos/:categorie/:album/fotos_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  navbarController.getNavbar,
+  fotoController.getFotosToevoegen
+);
+
+router.post(
+  "/fotos/:categorie/:album/fotos_toevoegen",
+  function (req, res, next) {
+    res.locals.checkToegang = "fotos";
+    return next();
+  },
+  loginController.checkLogin,
+  fotoController.multerFotosToevoegen,
+  fotoController.postFotosToevoegen
+);
+
 module.exports = router;

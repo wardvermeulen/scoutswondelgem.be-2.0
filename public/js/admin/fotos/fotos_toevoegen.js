@@ -3,14 +3,14 @@ $(document).ready(function () {
   pathElements.splice(pathElements.length - 1, 1);
   const url = pathElements.join("/");
 
-  $("#album").submit(function (e) {
+  $("#fotos").submit(function (e) {
     e.preventDefault();
 
-    $("#albumInfo").removeClass();
+    $("#fotosInfo").removeClass();
 
-    $("#albumSubmit").prop("disabled", true);
-    $("#albumSubmit").html(
-      'Categorie aanmaken <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
+    $("#fotosSubmit").prop("disabled", true);
+    $("#fotosSubmit").html(
+      'Foto\'s uploaden <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
     );
 
     $.ajax({
@@ -21,15 +21,15 @@ $(document).ready(function () {
       contentType: false,
       success: function (response) {
         if (response.type === "error") {
-          $("#albumInfo").addClass("alert alert-danger");
+          $("#fotosInfo").addClass("alert alert-danger");
         } else if (response.type === "success") {
-          window.location = url;
+          $("#fotosInfo").addClass("alert alert-success");
         }
 
-        $("#albumInfo").html(response.msg);
+        $("#fotosInfo").html(response.msg);
 
-        $("#albumSubmit").prop("disabled", false);
-        $("#albumSubmit").html("Categorie aanmaken");
+        $("#fotosSubmit").prop("disabled", false);
+        $("#fotosSubmit").html("Foto's uploaden");
       },
     });
   });
