@@ -301,6 +301,7 @@ exports.getAlbum = async function (req, res, next) {
   res.render("admin/fotos/album", {
     title: req.params.categorie + " | " + req.params.album,
     navbar: req.session.navbarData,
+    album: album.rows[0],
     fotos: fotos.rows,
   });
 };
@@ -398,7 +399,6 @@ exports.postFotosToevoegen = async function (req, res, next) {
       ]);
     } catch (err) {
       // ! Somehow log this
-      console.log(err);
       msg += "Er ging iets fout bij het toevoegen van " + originalname + " aan de database. <br />";
     }
   });

@@ -17,6 +17,9 @@ function Index(props) {
     <Layout {...props}>
       <div className="container mt-3">
         <h1>{props.title}</h1>
+        <div>
+          <a href="fotos/categorie_toevoegen">Categorie toevoegen</a>
+        </div>
         <div>{categorieen}</div>
       </div>
     </Layout>

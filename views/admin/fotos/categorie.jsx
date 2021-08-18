@@ -17,6 +17,9 @@ function Categorie(props) {
     <Layout {...props}>
       <div className="container mt-3">
         <h1>{props.title}</h1>
+        <div>
+          <a href={props.categorie.naam + "/album_toevoegen"}>Album toevoegen</a>
+        </div>
         <div>{albums}</div>
       </div>
     </Layout>
