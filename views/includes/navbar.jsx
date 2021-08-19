@@ -1,155 +1,174 @@
 var React = require("react");
 
-// function NavLink(props) {
-//   if (props.dropdown_items) {
-//     var links = props.dropdown_items.map(function (value, index) {
-//       return (
-//         <a key={index} href={"/" + props.tabel_en_url_naam + "/" + value.url_naam} className="dropdown-item">
-//           {value.naam}
-//         </a>
-//       );
-//     });
+function NavItem(props) {
+  let items;
+  if (props.dropdown_items) {
+    items = props.dropdown_items.map(function (value, index) {
+      return (
+        <a
+          key={index}
+          href={"/" + props.tabel_en_url_naam + "/" + value.url_naam}
+          className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+        >
+          {value.naam}
+        </a>
+      );
+    });
 
-//     return (
-//       <li id={"navbar" + props.naam} className="nav-item dropdown">
-//         <a
-//           href={props.tabel_en_url_naam}
-//           id={"toggle" + props.naam}
-//           role="button"
-//           data-toggle="dropdown"
-//           aria-haspopup="true"
-//           aria-expanded="false"
-//           className="nav-link dropdown-toggle"
-//         >
-//           {props.naam}
-//         </a>
-//         <div className="dropdown-menu" aria-labelledby={"toggle" + props.naam}>
-//           {links}
-//         </div>
-//       </li>
-//     );
-//   } else {
-//     return (
-//       <a id={"navbar" + props.naam} href={"/" + props.tabel_en_url_naam} className="nav-item nav-link">
-//         {props.naam}
-//       </a>
-//     );
-//   }
-// }
+    return (
+      <div className="dropdown relative">
+        <div>
+          <button className="dropdown-button inline-flex items-center justify-center w-full rounded-md px-3 py-2 text-gray-700 text-sm hover:bg-lime-300 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500">
+            {props.naam}
+            <svg
+              className="-mr-1 ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
 
-// function Navbar(props) {
-//   let navContent;
+        <div
+          className={
+            (props.rechts ? "origin-top-right right-0 " : "origin-top-left left-0 ") +
+            "dropdown-menu absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
+          }
+        >
+          <div className="py-1">{items}</div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <a
+        href={"/" + props.tabel_en_url_naam}
+        className="w-full rounded-md px-3 py-2 text-gray-700 text-sm hover:bg-lime-300 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500"
+      >
+        {props.naam}
+      </a>
+    );
+  }
+}
 
-//   if (props.navbar) {
-//     var navLinksLeft = props.navbar.map(function (value, index) {
-//       if (value.rechts == false) {
-//         return (
-//           <NavLink
-//             key={index}
-//             dropdown_items={value.dropdown_items}
-//             naam={value.naam}
-//             tabel_en_url_naam={value.tabel_en_url_naam}
-//           ></NavLink>
-//         );
-//       }
-//     });
-//     var navLinksRight = props.navbar.map(function (value, index) {
-//       if (value.rechts == true) {
-//         return (
-//           <NavLink
-//             key={index}
-//             dropdown_items={value.dropdown_items}
-//             naam={value.naam}
-//             tabel_en_url_naam={value.tabel_en_url_naam}
-//           ></NavLink>
-//         );
-//       }
-//     });
+function NavItemMobile(props) {
+  let items;
+  if (props.dropdown_items) {
+    items = props.dropdown_items.map(function (value, index) {
+      return (
+        <a
+          key={index}
+          href={"/" + props.tabel_en_url_naam + "/" + value.url_naam}
+          className="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+        >
+          {value.naam}
+        </a>
+      );
+    });
 
-//     navContent = (
-//       <div id="navbarNavAltMarkup" className="collapse navbar-collapse">
-//         <div className="navbar-nav">{navLinksLeft}</div>
-//         <div className="navbar-nav ml-auto">{navLinksRight}</div>
-//       </div>
-//     );
-//   } else {
-//     navContent = (
-//       <div id="navbarNavAltMarkup" className="collapse navbar-collapse">
-//         <li>
-//           <span className="text-danger">Er was een probleem met het inladen van de navigatiebar.</span>
-//         </li>
-//       </div>
-//     );
-//   }
+    return (
+      <div className="dropdown relative">
+        <div>
+          <button className="dropdown-button inline-flex items-center justify-center w-full rounded-md px-3 py-2 text-gray-700 text-sm hover:bg-lime-300 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500">
+            {props.naam}
+            <svg
+              className="-mr-1 ml-2 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fillRule="evenodd"
+                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
 
-//   return (
-//     <nav className="navbar navbar-expand-lg navbar-light bg-light">
-//       <div id="navbar-container" className="container">
-//         {/* Home knop */}
-//         <a href="/" className="navbar-brand abs">
-//           Scouts Wondelgem
-//         </a>
-
-//         {/* Knop die verschijnt bij kleine schermen */}
-//         <button
-//           className="navbar-toggler"
-//           type="button"
-//           data-toggle="collapse"
-//           data-target="#navbarNavAltMarkup"
-//           aria-controls="navbarNavAltMarkup"
-//           aria-expanded="false"
-//           aria-label="Toggle navigation"
-//         >
-//           <span className="navbar-toggler-icon"></span>
-//         </button>
-
-//         {/* Herin staat de content van de navbar */}
-//         {navContent}
-//       </div>
-//     </nav>
-//   );
-// }
+        <div
+          className={
+            (props.rechts ? "origin-top-right right-0 " : "origin-top-left left-0 ") +
+            "dropdown-menu absolute mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none hidden"
+          }
+        >
+          <div className="py-1">{items}</div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <a
+        href={"/" + props.tabel_en_url_naam}
+        className="w-full rounded-md px-3 py-2 text-gray-700 text-sm hover:bg-lime-300 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500"
+      >
+        {props.naam}
+      </a>
+    );
+  }
+}
 
 function Navbar(props) {
+  let navLinks, navRechts;
+  if (props.navbar) {
+    navLinks = props.navbar.map(function (value, index) {
+      if (value.rechts === false) {
+        return (
+          <NavItem
+            key={index}
+            naam={value.naam}
+            dropdown_items={value.dropdown_items}
+            tabel_en_url_naam={value.tabel_en_url_naam}
+            rechts={false}
+          ></NavItem>
+        );
+      }
+    });
+
+    navRechts = props.navbar.map(function (value, index) {
+      if (value.rechts === true) {
+        return (
+          <NavItem
+            key={index}
+            naam={value.naam}
+            dropdown_items={value.dropdown_items}
+            tabel_en_url_naam={value.tabel_en_url_naam}
+            rechts={true}
+          ></NavItem>
+        );
+      }
+    });
+  }
+
   return (
     <nav className="p-2">
-      <div className="max-w-6xl mx-auto bg-lime-100 px-4">
+      <div className="max-w-6xl mx-auto bg-lime-100 px-4 rounded-lg shadow">
         <div className="flex justify-between h-16">
           <div className="flex space-x-10">
             <div className="flex items-center space-x-2">
-              <a href="#" className="py-2 px-2 font-bold text-gray-700 hover:bg-gray-300 hover:text-gray-900">
+              <a
+                href="#"
+                className="w-full rounded-md px-3 py-2 text-gray-700 font-bold bg-lime-200 hover:bg-lime-300 hover:shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-lime-500"
+              >
                 Scouts Wondelgem
               </a>
             </div>
-            <div className="hidden md:flex items-center space-x-4">
-              <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-                Takken
-              </a>
-              <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-                Informatie
-              </a>
-              <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-                Agenda
-              </a>
-              <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-                Foto's
-              </a>
-              <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-                Verhuur
-              </a>
-            </div>
+            <div className="hidden lg:flex items-center space-x-2">{navLinks}</div>
           </div>
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-              Contact
-            </a>
-            <a href="#" className="py-2 px-2 text-gray-700 hover:bg-gray-300 hover:text-gray-900">
-              Aanmelden
-            </a>
-          </div>
-
-          <div className="md:hidden flex items-center">
-            <button id="mobile-menu-button" className="py-3">
+          <div className="hidden lg:flex items-center space-x-2">{navRechts}</div>
+          <div className="lg:hidden flex items-center">
+            <button
+              id="mobile-menu-button"
+              className="p-3 w-full rounded-md px-3 py-2 text-gray-700 font-bold hover:bg-lime-300 hover:shadow focus:outline-none"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 id="hamburger-open"
@@ -175,8 +194,8 @@ function Navbar(props) {
         </div>
       </div>
 
-      <div id="mobile-menu" className="hidden md:hidden">
-        <a href="" className="block py-2 px-4 text-sm hover:bg-gray-200">
+      <div id="mobile-menu" className="hidden lg:hidden bg-gray-100 rounded-lg shadow mt-2 mx-2">
+        <a href="" className="block py-2 px-4 text-sm hover:bg-gray-200 rounded-t-lg">
           Takken
         </a>
         <a href="" className="block py-2 px-4 text-sm hover:bg-gray-200">
