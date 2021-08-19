@@ -33,8 +33,8 @@ function Head(props) {
       <link rel="stylesheet" href="/tmp/bootstrap.min.css" />
       <script src="/tmp/bootstrap.min.js"></script> */}
 
-      <script src="https//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-      <link href="https//cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
+      <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+      <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
 
       {/* Laat overal tooltips toe. */}
       <script src="/js/tooltips.js"></script>
