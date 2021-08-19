@@ -5,3 +5,4 @@ public/stylesheets/tailwind-generated.css
 *.env
 public/uploads
 public/tmp
+package-lock.json
