@@ -6,7 +6,7 @@
     "start": "set NODE_ENV=production & npm run tailwind:css:prod & node ./bin/www",
     "devstart": "nodemon ./bin/www",
     "serverstart": "cross-env DEBUG=scoutswondelgem.be-node:* & npm run devstart",
-    "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/tailwind-generated.css",
+    "tailwind:css": "postcss public/stylesheets/tailwind.sass -o public/stylesheets/tailwind-generated.css",
     "tailwind:css:prod": "cross-env NODE_ENV=production npm run tailwind:css"
   },
   "dependencies": {

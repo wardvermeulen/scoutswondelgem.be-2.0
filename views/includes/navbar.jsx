@@ -181,7 +181,7 @@ function Navbar(props) {
   }
 
   return (
-    <nav className="p-2">
+    <nav className="p-2 mb-3">
       {/* Desktop navbar */}
       <div className="max-w-6xl mx-auto bg-lime-100 px-4 rounded-lg shadow">
         <div className="flex justify-between h-16">
@@ -234,7 +234,7 @@ function Navbar(props) {
       </div>
 
       {/* Mobiele navbar */}
-      <div id="mobile-menu" className="flex justify-between items-center lg:hidden mt-2">
+      <div id="mobile-menu" className="flex justify-between items-center hidden lg:hidden mt-2">
         <div className="bg-gray-100 rounded-lg shadow mx-2 w-full">{navMobileLinks}</div>
         <div className="bg-gray-100 rounded-lg shadow mx-2 w-full">{navMobileRechts}</div>
       </div>
