@@ -19,19 +19,49 @@ function Index(props) {
 
           <hr />
 
+          <form method="POST" encType="multipart/form-data" id="profielfoto">
+            <p id="profielfotoInfo" className="hidden border-2 rounded p-3 mb-2"></p>
+            <div className="flex">
+              <img
+                src={props.gebruiker.afbeelding}
+                id="profielfotoImg"
+                className="w-1/2 rounded"
+                hidden={props.gebruiker.afbeelding ? false : true}
+              />
+              <div className="ml-2 space-y-2">
+                <div>
+                  <label
+                    htmlFor="file-upload"
+                    className="relative justify-start cursor-pointer rounded font-medium text-blue-500 hover:text-blue-600 focus-within:outline-none"
+                  >
+                    <span>Upload een profielfoto</span>
+                    <input id="file-upload" name="profielfoto" type="file" className="sr-only" />
+                  </label>
+                </div>
+                <button type="submit" id="profielfotoSubmit" className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded">
+                  Opslaan
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <hr />
+
           <form method="POST" id="info">
             <div className="space-y-1">
-              <p id="infoInfo"></p>
-              <label htmlFor="gsm">GSM-nummer (formaat: 04XX/XX.XX.XX)</label>
+              <p id="infoInfo" className="hidden border-2 rounded p-3 mb-2"></p>
+              <label htmlFor="gsm" className="ml-3">
+                GSM-nummer (formaat: 04XX/XX.XX.XX)
+              </label>
               <input
                 type="tel"
                 name="gsm"
                 id="gsm"
-                className="w-full bg-white border-2"
+                className="w-full input"
                 placeholder="GSM-nummer"
                 defaultValue={props.gebruiker.gsm == null ? "" : props.gebruiker.gsm}
               />
-              <button type="submit" id="infoSubmit">
+              <button type="submit" id="infoSubmit" className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded">
                 Opslaan
               </button>
             </div>
@@ -40,13 +70,13 @@ function Index(props) {
           <hr />
 
           <form method="POST" id="tekstje">
-            <div className="form-group">
-              <p id="tekstjeInfo"></p>
+            <div className="form-group space-y-2">
+              <p id="tekstjeInfo" className="hidden border-2 rounded p-3 mb-2"></p>
               <label htmlFor="tekstjeEditor" className="ml-3">
                 Persoonlijk tekstje
               </label>
               <div id="tekstjeEditor"></div>
-              <button type="submit" id="tekstjeSubmit">
+              <button type="submit" id="tekstjeSubmit" className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded">
                 Opslaan
               </button>
             </div>
@@ -55,39 +85,20 @@ function Index(props) {
           <hr />
 
           <form method="POST" id="wachtwoord">
-            <div className="form-group">
-              <p id="wachtwoordInfo"></p>
+            <div className="form-group space-y-2">
+              <p id="wachtwoordInfo" className="hidden border-2 rounded p-3 mb-2"></p>
               <label htmlFor="oud" className="ml-3">
                 Wachtwoord wijzigen
               </label>
-              <div>
-                <input type="password" className="form-control" name="oud" id="oud" placeholder="Oud wachtwoord" />
-                <input type="password" className="form-control mt-2" name="nieuw" placeholder="Nieuw wachtwoord" />
-                <input
-                  type="password"
-                  className="form-control mt-2"
-                  name="nieuw2"
-                  placeholder="Nieuw wachtwoord herhalen"
-                />
+              <div className="space-y-1">
+                <input type="password" className="w-full input" name="oud" id="oud" placeholder="Oud wachtwoord" />
+                <input type="password" className="w-full input" name="nieuw" placeholder="Nieuw wachtwoord" />
+                <input type="password" className="w-full input" name="nieuw2" placeholder="Nieuw wachtwoord herhalen" />
               </div>
-              <input type="submit" value="Opslaan" id="wachtwoordSubmit" />
+              <button type="submit" id="wachtwoordSubmit" className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded">
+                Opslaan
+              </button>
             </div>
-          </form>
-
-          <hr />
-
-          <form method="POST" encType="multipart/form-data" id="profielfoto">
-            <img
-              src={props.gebruiker.afbeelding}
-              id="profielfotoImg"
-              className="img-fluid mb-3"
-              hidden={props.gebruiker.afbeelding ? false : true}
-            />
-            <p id="profielfotoInfo"></p>
-            <button type="submit" className="btn btn-info mr-3" id="profielfotoSubmit">
-              Uploaden
-            </button>
-            <input type="file" name="profielfoto" />
           </form>
         </div>
       </div>

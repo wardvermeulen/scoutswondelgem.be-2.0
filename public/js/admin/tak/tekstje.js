@@ -29,12 +29,7 @@ $(document).ready(function () {
     const tekstjeJson = quill.getContents();
     const tekstjeHtml = quill.root.innerHTML;
 
-    $("#tekstjeInfo").removeClass();
-
     $("#tekstjeSubmit").prop("disabled", true);
-    $("#tekstjeSubmit").html(
-      'Opslaan <span class="spinner-border spinner-border-sm ml-2" role="status" aria-hidden="true"></span>'
-    );
 
     $.ajax({
       url: url,
@@ -44,16 +39,18 @@ $(document).ready(function () {
         tekstje_html: tekstjeHtml,
       },
       success: function (response) {
+        $("#tekstjeInfo").removeClass("hidden");
         if (response.type === "error") {
-          $("#tekstjeInfo").addClass("alert alert-danger");
+          $("#tekstjeInfo").removeClass("bg-green-100 border-green-200");
+          $("#tekstjeInfo").addClass("bg-red-100 border-red-200");
         } else if (response.type === "success") {
-          $("#tekstjeInfo").addClass("alert alert-success");
+          $("#tekstjeInfo").removeClass("bg-red-100 border-red-200");
+          $("#tekstjeInfo").addClass("bg-green-100 border-green-200");
         }
 
         $("#tekstjeInfo").html(response.msg);
 
         $("#tekstjeSubmit").prop("disabled", false);
-        $("#tekstjeSubmit").html("Opslaan");
       },
     });
   });
