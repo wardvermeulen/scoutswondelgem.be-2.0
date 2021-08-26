@@ -21,26 +21,37 @@ function Index(props) {
 
           <form method="POST" encType="multipart/form-data" id="profielfoto">
             <p id="profielfotoInfo" className="hidden border-2 rounded p-3 mb-2"></p>
-            <div className="flex">
-              <img
-                src={props.gebruiker.afbeelding}
-                id="profielfotoImg"
-                className="w-1/2 rounded"
-                hidden={props.gebruiker.afbeelding ? false : true}
-              />
-              <div className="ml-2 space-y-2">
+            <div className="flex items-center space-x-2">
+              <div className="w-96">
+                <img
+                  src={props.gebruiker.afbeelding}
+                  id="profielfotoImg"
+                  className="rounded border-2"
+                  hidden={props.gebruiker.afbeelding ? false : true}
+                />
+              </div>
+              <div className="space-y-2">
                 <div>
                   <label
                     htmlFor="file-upload"
-                    className="relative justify-start cursor-pointer rounded font-medium text-blue-500 hover:text-blue-600 focus-within:outline-none"
+                    className="cursor-pointer rounded font-bold text-blue-500 hover:text-blue-600 focus-within:outline-none"
                   >
                     <span>Upload een profielfoto</span>
                     <input id="file-upload" name="profielfoto" type="file" className="sr-only" />
                   </label>
                 </div>
-                <button type="submit" id="profielfotoSubmit" className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded">
-                  Opslaan
-                </button>
+                <div>
+                  <button
+                    type="submit"
+                    id="profielfotoSubmit"
+                    className="bg-sky-200 hover:bg-sky-300 px-3 py-2 rounded"
+                  >
+                    Opslaan
+                  </button>
+                </div>
+                <p className="text-red-600 font-medium">
+                  Opgelet: Als je een nieuwe profielfoto uploadt wordt de oude profielfoto onomkeerbaar verwijderd.
+                </p>
               </div>
             </div>
           </form>
